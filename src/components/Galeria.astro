@@ -1,0 +1,394 @@
+---
+// Galeria: fileiras justificadas (estilo Google Fotos) — sem cortar fotos,
+// sem "buraco" no final, porque não há colunas: cada linha fecha ponta a
+// ponta com a própria altura, calculada em runtime via script.
+
+const photos = [
+  { src: "/images/galeria/foto-01.webp", alt: "Fisioterapia 01", width: 1600, height: 1200 },
+  { src: "/images/galeria/foto-02.webp", alt: "Fisioterapia 02", width: 1200, height: 896 },
+  { src: "/images/galeria/foto-03.webp", alt: "Fisioterapia 03", width: 1200, height: 896 },
+  { src: "/images/galeria/foto-04.webp", alt: "Fisioterapia 04", width: 1600, height: 1200 },
+  { src: "/images/galeria/foto-05.webp", alt: "Fisioterapia 05", width: 1200, height: 896 },
+  { src: "/images/galeria/foto-06.webp", alt: "Fisioterapia 06", width: 1600, height: 1200 },
+  { src: "/images/galeria/foto-07.webp", alt: "Fisioterapia 07", width: 1600, height: 1200 },
+  { src: "/images/galeria/foto-08.webp", alt: "Fisioterapia 08", width: 1600, height: 1200 },
+  { src: "/images/galeria/foto-09.webp", alt: "Fisioterapia 09", width: 1136, height: 852 },
+  { src: "/images/galeria/foto-10.webp", alt: "Fisioterapia 10", width: 1200, height: 896 },
+  { src: "/images/galeria/foto-11.webp", alt: "Fisioterapia 11", width: 1600, height: 1200 },
+  { src: "/images/galeria/foto-12.webp", alt: "Fisioterapia 12", width: 1200, height: 1600 },
+  { src: "/images/galeria/foto-13.webp", alt: "Fisioterapia 13", width: 1200, height: 1600 },
+  { src: "/images/galeria/foto-14.webp", alt: "Fisioterapia 14", width: 1600, height: 1200 },
+  { src: "/images/galeria/foto-15.webp", alt: "Fisioterapia 15", width: 1200, height: 896 },
+  { src: "/images/galeria/foto-16.webp", alt: "Fisioterapia 16", width: 1200, height: 896 },
+  { src: "/images/galeria/foto-17.webp", alt: "Fisioterapia 17", width: 1200, height: 1600 },
+  { src: "/images/galeria/foto-18.webp", alt: "Fisioterapia 18", width: 1024, height: 768 },
+  { src: "/images/galeria/foto-19.webp", alt: "Fisioterapia 19", width: 1200, height: 1600 },
+  { src: "/images/galeria/foto-20.webp", alt: "Fisioterapia 20", width: 1200, height: 896 },
+  { src: "/images/galeria/foto-21.webp", alt: "Fisioterapia 21", width: 1200, height: 1600 },
+  { src: "/images/galeria/foto-22.webp", alt: "Fisioterapia 22", width: 900, height: 1173 },
+];
+---
+
+<section class="section-wrap" id="galeria">
+  <div class="container">
+    <div class="card-purple galeria">
+
+      <div class="galeria__header fade-up">
+        <p class="eyebrow">Galeria</p>
+        <h2>Na clínica e no tratamento</h2>
+        <p class="galeria__intro">
+          Registros do espaço, dos equipamentos e dos atendimentos na Clínica Renata Soares —
+          o ambiente pensado para o dia a dia do tratamento.
+        </p>
+      </div>
+
+      <div class="galeria__frame fade-up fade-up-delay-1">
+        <div class="galeria__wall" id="galeriaWall">
+          {photos.map((p, i) => (
+            <button
+              type="button"
+              class="galeria__item"
+              data-index={i}
+              data-ratio={p.width / p.height}
+            >
+              <img
+                src={p.src}
+                alt={p.alt}
+                width={p.width}
+                height={p.height}
+                loading={i < 6 ? "eager" : "lazy"}
+              />
+            </button>
+          ))}
+        </div>
+
+        <div class="galeria__scrollbar" id="galeriaScrollbar">
+          <div class="galeria__scrollbar-thumb" id="galeriaScrollbarThumb"></div>
+        </div>
+      </div>
+
+    </div><!-- /card-purple -->
+  </div>
+</section>
+
+<div class="galeria__lightbox" id="galeriaLightbox" aria-hidden="true">
+  <button type="button" class="galeria__lightbox-close" id="galeriaLightboxClose" aria-label="Fechar">✕</button>
+  <button type="button" class="galeria__lightbox-nav galeria__lightbox-nav--prev" id="galeriaLightboxPrev" aria-label="Foto anterior">‹</button>
+  <img src="" alt="" id="galeriaLightboxImg" />
+  <button type="button" class="galeria__lightbox-nav galeria__lightbox-nav--next" id="galeriaLightboxNext" aria-label="Próxima foto">›</button>
+</div>
+
+<style>
+  .galeria h2 {
+    font-size: var(--font-h2);
+    margin-top: 0.75rem;
+  }
+
+  .galeria__header {
+    margin-bottom: clamp(2rem, 1.5rem + 2vw, 3rem);
+  }
+
+  .galeria__intro {
+    margin-top: 0.5rem;
+    font-size: var(--font-small);
+    color: rgb(255 255 255 / 0.65);
+    max-width: 62ch;
+  }
+
+  /* ── Mural: fotos + barra de rolagem lado a lado ── */
+  .galeria__frame {
+    display: flex;
+    align-items: stretch;
+    gap: 14px;
+  }
+
+  .galeria__wall {
+    flex: 1;
+    min-width: 0;
+    height: clamp(480px, 55vh, 640px);
+    overflow-y: scroll;
+    overflow-x: hidden;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    gap: 12px;
+    scrollbar-width: none;
+  }
+
+  .galeria__wall::-webkit-scrollbar {
+    display: none;
+  }
+
+  .galeria__scrollbar {
+    flex-shrink: 0;
+    width: 6px;
+    border-radius: 999px;
+    background: rgb(255 255 255 / 0.14);
+    position: relative;
+  }
+
+  .galeria__scrollbar-thumb {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    border-radius: 999px;
+    background: var(--color-lime);
+  }
+
+  .galeria__item {
+    display: block;
+    border: none;
+    padding: 0;
+    border-radius: 0.875rem;
+    overflow: hidden;
+    cursor: pointer;
+    background: var(--color-accent-dark);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .galeria__item.is-placed {
+    opacity: 1;
+  }
+
+  .galeria__item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s ease;
+  }
+
+  .galeria__item:hover img,
+  .galeria__item:focus-visible img {
+    transform: scale(1.04);
+  }
+
+  @media (max-width: 900px) {
+    .galeria__wall {
+      height: clamp(420px, 60vh, 560px);
+    }
+  }
+
+  @media (max-width: 560px) {
+    .galeria__wall {
+      height: clamp(360px, 60vh, 480px);
+    }
+  }
+
+  /* ── Lightbox ── */
+  .galeria__lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgb(15 8 22 / 0.92);
+    padding: clamp(1rem, 4vw, 3rem);
+  }
+
+  .galeria__lightbox.is-open {
+    display: flex;
+  }
+
+  .galeria__lightbox img {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 0.75rem;
+    object-fit: contain;
+  }
+
+  .galeria__lightbox-close {
+    position: absolute;
+    top: clamp(0.75rem, 2vw, 1.5rem);
+    right: clamp(0.75rem, 2vw, 1.5rem);
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    border: none;
+    background: rgb(255 255 255 / 0.12);
+    color: #fff;
+    font-size: 1.125rem;
+    cursor: pointer;
+    transition: background var(--transition-base);
+  }
+
+  .galeria__lightbox-close:hover {
+    background: rgb(255 255 255 / 0.22);
+  }
+
+  .galeria__lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 50%;
+    border: none;
+    background: rgb(255 255 255 / 0.12);
+    color: #fff;
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: background var(--transition-base);
+  }
+
+  .galeria__lightbox-nav:hover {
+    background: rgb(255 255 255 / 0.22);
+  }
+
+  .galeria__lightbox-nav--prev { left: clamp(0.75rem, 2vw, 1.5rem); }
+  .galeria__lightbox-nav--next { right: clamp(0.75rem, 2vw, 1.5rem); }
+</style>
+
+<script>
+  const wall = document.querySelector<HTMLDivElement>("#galeriaWall");
+  const lightbox = document.querySelector<HTMLDivElement>("#galeriaLightbox");
+  const lightboxImg = document.querySelector<HTMLImageElement>("#galeriaLightboxImg");
+  const closeBtn = document.querySelector<HTMLButtonElement>("#galeriaLightboxClose");
+  const prevBtn = document.querySelector<HTMLButtonElement>("#galeriaLightboxPrev");
+  const nextBtn = document.querySelector<HTMLButtonElement>("#galeriaLightboxNext");
+
+  if (wall && lightbox && lightboxImg && closeBtn && prevBtn && nextBtn) {
+    const items = Array.from(wall.querySelectorAll<HTMLButtonElement>(".galeria__item"));
+    const scrollbar = document.querySelector<HTMLDivElement>("#galeriaScrollbar");
+    const thumb = document.querySelector<HTMLDivElement>("#galeriaScrollbarThumb");
+
+    function syncThumb() {
+      if (!scrollbar || !thumb || !wall) return;
+      const ratio = wall.clientHeight / wall.scrollHeight;
+      const thumbHeight = Math.max(ratio * scrollbar.clientHeight, 24);
+      const maxThumbTop = scrollbar.clientHeight - thumbHeight;
+      const scrollRatio =
+        wall.scrollHeight === wall.clientHeight
+          ? 0
+          : wall.scrollTop / (wall.scrollHeight - wall.clientHeight);
+
+      thumb.style.height = `${thumbHeight}px`;
+      thumb.style.top = `${scrollRatio * maxThumbTop}px`;
+    }
+
+    // ── Layout em fileiras justificadas ──
+    const GAP = 12;
+    const TARGET_ROW_HEIGHT = 210;
+
+    const layout = () => {
+      const containerWidth = wall.clientWidth - 2; // margem de segurança
+      let row: HTMLButtonElement[] = [];
+      let rowRatioSum = 0;
+
+      const flushRow = (isLast: boolean) => {
+        if (!row.length) return;
+        const totalGap = GAP * (row.length - 1);
+        let rowHeight = (containerWidth - totalGap) / rowRatioSum;
+        if (isLast && rowHeight > TARGET_ROW_HEIGHT * 1.4) {
+          rowHeight = TARGET_ROW_HEIGHT;
+        }
+        row.forEach((el) => {
+          const ratio = Number(el.dataset.ratio);
+          el.style.height = `${rowHeight}px`;
+          el.style.width = `${rowHeight * ratio}px`;
+          el.classList.add("is-placed");
+        });
+        row = [];
+        rowRatioSum = 0;
+      };
+
+      items.forEach((item) => {
+        const ratio = Number(item.dataset.ratio);
+        row.push(item);
+        rowRatioSum += ratio;
+        const widthAtTarget = TARGET_ROW_HEIGHT * rowRatioSum + GAP * (row.length - 1);
+        if (widthAtTarget >= containerWidth) {
+          flushRow(false);
+        }
+      });
+      flushRow(true);
+
+      syncThumb();
+    };
+
+    let resizeTimer: ReturnType<typeof setTimeout>;
+    window.addEventListener("resize", () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(layout, 150);
+    });
+    layout();
+
+    let current = 0;
+
+    const show = (index: number) => {
+      current = (index + items.length) % items.length;
+      const img = items[current].querySelector("img");
+      if (img) {
+        lightboxImg.src = img.src;
+        lightboxImg.alt = img.alt;
+      }
+    };
+
+    const open = (index: number) => {
+      show(index);
+      lightbox.classList.add("is-open");
+      lightbox.setAttribute("aria-hidden", "false");
+    };
+
+    const close = () => {
+      lightbox.classList.remove("is-open");
+      lightbox.setAttribute("aria-hidden", "true");
+    };
+
+    items.forEach((item, i) => {
+      item.addEventListener("click", () => open(i));
+    });
+
+    closeBtn.addEventListener("click", close);
+    prevBtn.addEventListener("click", () => show(current - 1));
+    nextBtn.addEventListener("click", () => show(current + 1));
+
+    if (scrollbar && thumb) {
+      wall.addEventListener("scroll", syncThumb);
+
+      let dragging = false;
+
+      const scrollToPointer = (clientY: number) => {
+        const rect = scrollbar.getBoundingClientRect();
+        const thumbHeight = thumb.getBoundingClientRect().height;
+        const maxThumbTop = rect.height - thumbHeight;
+        const offset = clientY - rect.top - thumbHeight / 2;
+        const ratio = Math.min(Math.max(offset / maxThumbTop, 0), 1);
+        wall.scrollTop = ratio * (wall.scrollHeight - wall.clientHeight);
+      };
+
+      thumb.addEventListener("mousedown", (e) => {
+        dragging = true;
+        e.preventDefault();
+      });
+
+      scrollbar.addEventListener("mousedown", (e) => {
+        if (e.target === thumb) return;
+        scrollToPointer(e.clientY);
+      });
+
+      window.addEventListener("mousemove", (e) => {
+        if (dragging) scrollToPointer(e.clientY);
+      });
+
+      window.addEventListener("mouseup", () => {
+        dragging = false;
+      });
+    }
+
+    lightbox.addEventListener("click", (e) => {
+      if (e.target === lightbox) close();
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (!lightbox.classList.contains("is-open")) return;
+      if (e.key === "Escape") close();
+      if (e.key === "ArrowLeft") show(current - 1);
+      if (e.key === "ArrowRight") show(current + 1);
+    });
+  }
+</script>

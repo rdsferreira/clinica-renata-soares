@@ -1,0 +1,283 @@
+---
+// Seção 08 — O que dizem as famílias — aspas grandes + glass
+
+const testimonials = [
+  {
+    name: "Rosana Ferreira",
+    role: "Mãe do Miguel, 11 anos",
+    quote:
+      "Meu filho Miguel chegou com pisada torta, escoliose e lordose acentuada. Em menos de 6 meses de acompanhamento, a pisada foi corrigida, a postura ficou alinhada, a escoliose ajustada e a lordose bem melhor. O acolhimento, a paciência e o profissionalismo da Dra. Renata fazem toda a diferença — o ambiente é bem estruturado, organizado e acolhedor.",
+    pending: false,
+  },
+  {
+    name: "Depoimento em breve",
+    role: "Família atendida",
+    quote: "",
+    pending: true,
+  },
+  {
+    name: "Depoimento em breve",
+    role: "Família atendida",
+    quote: "",
+    pending: true,
+  },
+];
+---
+
+<section class="section-wrap" id="depoimentos">
+  <div class="container">
+    <div class="card-purple testimonials">
+      <div class="testimonials__header fade-up">
+        <p class="eyebrow">Depoimentos</p>
+        <h2>O que dizem as famílias</h2>
+      </div>
+
+      <div class="testimonials__viewport fade-up fade-up-delay-2">
+        <button
+          class="testimonials__nav testimonials__nav--prev"
+          type="button"
+          aria-label="Depoimento anterior"
+        >
+          ‹
+        </button>
+
+        <ul class="testimonials__track">
+          {
+            testimonials.map((t) => (
+              <li class="testimonials__slide">
+                <figure class="testimonials__card">
+                  {t.pending ? (
+                    <div class="testimonials__placeholder">
+                      <span class="testimonials__placeholder-icon" aria-hidden="true">★</span>
+                      <p>Depoimento em breve</p>
+                    </div>
+                  ) : (
+                    <>
+                      <span class="testimonials__quote-mark" aria-hidden="true">"</span>
+                      <blockquote>
+                        <p>{t.quote}</p>
+                      </blockquote>
+                    </>
+                  )}
+                  <figcaption>
+                    <strong>{t.name}</strong>
+                    <span>{t.role}</span>
+                  </figcaption>
+                </figure>
+              </li>
+            ))
+          }
+        </ul>
+
+        <button
+          class="testimonials__nav testimonials__nav--next"
+          type="button"
+          aria-label="Próximo depoimento"
+        >
+          ›
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const track = document.querySelector<HTMLUListElement>(".testimonials__track");
+  if (track) {
+    const slides = Array.from(track.querySelectorAll<HTMLLIElement>(".testimonials__slide"));
+
+    const setActive = () => {
+      const trackRect = track.getBoundingClientRect();
+      const center = trackRect.left + trackRect.width / 2;
+      let closest: HTMLLIElement | null = null;
+      let closestDist = Infinity;
+
+      slides.forEach((slide) => {
+        const rect = slide.getBoundingClientRect();
+        const dist = Math.abs(rect.left + rect.width / 2 - center);
+        if (dist < closestDist) {
+          closestDist = dist;
+          closest = slide;
+        }
+      });
+
+      slides.forEach((slide) => slide.classList.toggle("is-active", slide === closest));
+    };
+
+    let raf = 0;
+    track.addEventListener("scroll", () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(setActive);
+    }, { passive: true });
+
+    window.addEventListener("resize", setActive);
+    setActive();
+
+    const viewport = track.closest(".testimonials__viewport");
+    const prevBtn = viewport?.querySelector<HTMLButtonElement>(".testimonials__nav--prev");
+    const nextBtn = viewport?.querySelector<HTMLButtonElement>(".testimonials__nav--next");
+
+    const goTo = (direction: number) => {
+      const active = track.querySelector(".is-active") ?? slides[0];
+      const idx = slides.indexOf(active as HTMLLIElement);
+      const target = slides[Math.min(slides.length - 1, Math.max(0, idx + direction))];
+      target?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+    };
+
+    prevBtn?.addEventListener("click", () => goTo(-1));
+    nextBtn?.addEventListener("click", () => goTo(1));
+  }
+</script>
+
+<style>
+  .testimonials__header {
+    margin-bottom: clamp(2rem, 1.5rem + 2vw, 3rem);
+  }
+
+  .testimonials h2 {
+    font-size: var(--font-h2);
+    margin-top: 0.75rem;
+    max-width: 32ch;
+    text-wrap: balance;
+  }
+
+  .testimonials__viewport {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .testimonials__track {
+    flex: 1;
+    display: flex;
+    gap: 1.25rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: max(0.5rem, calc((100% - 28rem) / 2));
+    padding-inline: max(0.5rem, calc((100% - 28rem) / 2));
+    padding-block: 0.5rem;
+    scrollbar-width: none;
+  }
+
+  .testimonials__track::-webkit-scrollbar { display: none; }
+
+  .testimonials__slide {
+    flex: 0 0 min(100%, 28rem);
+    scroll-snap-align: center;
+  }
+
+  /* Card branco, destacado do fundo roxo */
+  .testimonials__card {
+    height: 100%;
+    min-height: 16rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 2rem;
+    border-radius: 1.25rem;
+    background: var(--color-surface);
+    position: relative;
+    filter: blur(4px);
+    opacity: 0.4;
+    transform: scale(0.92);
+    transition: filter 0.4s ease, opacity 0.4s ease, transform 0.4s ease;
+  }
+
+  .testimonials__slide.is-active .testimonials__card {
+    filter: none;
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* Aspas grandes */
+  .testimonials__quote-mark {
+    position: absolute;
+    top: -0.5rem;
+    left: 1.5rem;
+    font-size: 6rem;
+    line-height: 1;
+    font-family: Georgia, serif;
+    color: var(--color-lime);
+    pointer-events: none;
+  }
+
+  .testimonials__card blockquote {
+    flex: 1;
+    margin-top: 2rem;
+  }
+
+  .testimonials__card blockquote p {
+    font-size: var(--font-small);
+    color: var(--color-text);
+    line-height: 1.75;
+    font-style: italic;
+  }
+
+  .testimonials__placeholder {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 2rem 0;
+    border: 2px dashed rgb(0 0 0 / 0.15);
+    border-radius: 0.75rem;
+  }
+
+  .testimonials__placeholder-icon {
+    font-size: 1.5rem;
+    color: rgb(0 0 0 / 0.2);
+  }
+
+  .testimonials__placeholder p {
+    font-size: var(--font-small);
+    color: var(--color-text-muted);
+    font-style: italic;
+  }
+
+  .testimonials__card figcaption {
+    display: flex;
+    flex-direction: column;
+    font-size: var(--font-small);
+    border-top: 1px solid rgb(0 0 0 / 0.1);
+    padding-top: 1rem;
+  }
+
+  .testimonials__card figcaption strong {
+    color: var(--color-lime-dark, #5c6b1c);
+    font-weight: 700;
+  }
+
+  .testimonials__card figcaption span {
+    color: var(--color-text-muted);
+    margin-top: 0.125rem;
+  }
+
+  .testimonials__nav {
+    flex-shrink: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 50%;
+    border: 1px solid rgb(255 255 255 / 0.25);
+    background: rgb(255 255 255 / 0.08);
+    color: #fff;
+    font-size: 1.5rem;
+    line-height: 1;
+    transition: background var(--transition-base);
+  }
+
+  .testimonials__nav:hover {
+    background: rgb(255 255 255 / 0.18);
+  }
+
+  @media (min-width: 700px) {
+    .testimonials__nav { display: flex; }
+  }
+</style>

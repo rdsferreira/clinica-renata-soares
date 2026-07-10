@@ -1,0 +1,343 @@
+---
+// Seção 04 — Como funciona o tratamento — timeline vertical + jornada fotográfica
+import { Image } from "astro:assets";
+import jornada01 from "../../public/images/jornada-01-chegada.jpg";
+import jornada02 from "../../public/images/jornada-02-avaliacao.jpg";
+import jornada03 from "../../public/images/jornada-03-reabilitacao.jpg";
+import jornada04 from "../../public/images/jornada-04-retorno.jpg";
+
+const steps = [
+  {
+    num: "01",
+    title: "Avaliação Funcional",
+    text: "Análise detalhada do histórico clínico, postura, padrões de movimento e contexto de vida da criança.",
+    tone: "orange",
+  },
+  {
+    num: "02",
+    title: "Diagnóstico Funcional",
+    text: "Identificação dos fatores que contribuem para a dor, limitação ou alteração apresentada.",
+    tone: "lime",
+  },
+  {
+    num: "03",
+    title: "Plano Terapêutico",
+    text: "Definição de estratégias individualizadas de tratamento baseadas em evidências científicas.",
+    tone: "purple",
+  },
+  {
+    num: "04",
+    title: "Acompanhamento da Evolução",
+    text: "Monitoramento contínuo da resposta ao tratamento com ajustes conforme necessário.",
+    tone: "orange",
+  },
+  {
+    num: "05",
+    title: "Educação e Prevenção",
+    text: "Orientações para a criança e sua família visando resultados duradouros e prevenção de recidivas.",
+    tone: "lime",
+  },
+];
+
+const jornadaPhotos = [
+  { src: jornada01, alt: "Criança chegando para avaliação com a bolsa esportiva, recebida pela Dra. Renata" },
+  { src: jornada02, alt: "Avaliação funcional do tornozelo do paciente" },
+  { src: jornada03, alt: "Exercício de reabilitação sobre bola suíça, com apoio da fisioterapeuta" },
+  { src: jornada04, alt: "Adolescente jogando futebol após o tratamento, de volta ao esporte" },
+];
+---
+
+<section class="section" id="tratamento">
+  <div class="container">
+    <div class="how__header fade-up">
+      <p class="eyebrow-light">Metodologia</p>
+      <h2 class="how__title">Como funciona o tratamento</h2>
+    </div>
+
+    <div class="how__body">
+      <div class="how__timeline">
+        {
+          steps.map((step, i) => (
+            <div class={`how__step fade-up fade-up-delay-${Math.min(i + 1, 4)}`}>
+              <div class="how__line-col">
+                <span class={`how__num how__num--${step.tone}`}>{step.num}</span>
+                {i < steps.length - 1 && <div class="how__connector" />}
+              </div>
+              <div class="how__content">
+                <h3>{step.title}</h3>
+                <p>{step.text}</p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="how__visual fade-up fade-up-delay-2">
+        <div class="jornada" id="jornada">
+          {
+            jornadaPhotos.map((photo, i) => (
+              <Image
+                src={photo.src}
+                alt={photo.alt}
+                width={420}
+                height={630}
+                loading="lazy"
+                class="jornada__slide"
+                data-active={i === 0 ? "true" : "false"}
+              />
+            ))
+          }
+          <div class="jornada__dots">
+            {jornadaPhotos.map((_, i) => (
+              <span class="jornada__dot" data-active={i === 0 ? "true" : "false"} />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .eyebrow-light {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--font-heading);
+    font-size: var(--font-small);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+
+  .how__header {
+    margin-bottom: clamp(2.5rem, 2rem + 2vw, 3.5rem);
+  }
+
+  .how__title {
+    font-size: var(--font-h2);
+    color: var(--color-text);
+    margin-top: 0.75rem;
+    max-width: 28ch;
+    text-wrap: balance;
+  }
+
+  .how__body {
+    display: grid;
+    gap: clamp(2.5rem, 2rem + 2vw, 3rem);
+  }
+
+  @media (min-width: 960px) {
+    .how__body {
+      grid-template-columns: minmax(0, 34rem) 520px;
+      gap: 0 1.5rem;
+      align-items: start;
+    }
+  }
+
+  .how__timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: 44rem;
+  }
+
+  .how__step {
+    display: grid;
+    grid-template-columns: 4rem 1fr;
+    gap: 0 1.5rem;
+  }
+
+  .how__line-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  .how__num {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 0.8125rem;
+    flex-shrink: 0;
+    z-index: 1;
+    position: relative;
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+  }
+
+  .how__step:hover .how__num {
+    transform: scale(1.08);
+    box-shadow: 0 4px 16px -4px rgb(80 42 119 / 0.35);
+  }
+
+  .how__num--orange {
+    background: var(--color-orange-tint);
+    color: var(--color-orange);
+  }
+
+  .how__num--lime {
+    background: var(--color-lime-tint);
+    color: #5c6b1c;
+  }
+
+  .how__num--purple {
+    background: var(--color-accent-tint);
+    color: var(--color-accent);
+  }
+
+  /* Linha conectora vertical */
+  .how__connector {
+    flex: 1;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--color-accent) 0%, var(--color-accent-tint) 100%);
+    margin-block: 0.25rem;
+    min-height: 2rem;
+  }
+
+  .how__content {
+    padding-bottom: 2.5rem;
+    padding-top: 0.5rem;
+  }
+
+  .how__step:last-child .how__content {
+    padding-bottom: 0;
+  }
+
+  .how__content h3 {
+    font-size: var(--font-h3);
+    color: var(--color-text);
+  }
+
+  .how__content p {
+    margin-top: 0.5rem;
+    color: var(--color-text-muted);
+    max-width: 48ch;
+    line-height: 1.65;
+  }
+
+  /* ── Jornada fotográfica ── */
+  .how__visual {
+    display: flex;
+    justify-content: center;
+  }
+
+  @media (min-width: 960px) {
+    .how__visual {
+      justify-content: flex-end;
+      position: sticky;
+      top: 6rem;
+      align-self: start;
+    }
+  }
+
+  .jornada {
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+    aspect-ratio: 2 / 3;
+    border-radius: 1.25rem;
+    overflow: hidden;
+    background: var(--color-accent-tint);
+    box-shadow: 0 12px 32px -8px rgb(80 42 119 / 0.25);
+  }
+
+  @media (min-width: 960px) {
+    .jornada {
+      width: auto;
+      height: min(80vh, 720px);
+      max-width: none;
+    }
+  }
+
+  .jornada__slide {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 700ms ease-in-out;
+  }
+
+  .jornada__slide[data-active="true"] {
+    opacity: 1;
+  }
+
+  .jornada__dots {
+    position: absolute;
+    bottom: 1rem;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    z-index: 1;
+  }
+
+  .jornada__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgb(255 255 255 / 0.5);
+    transition: background 300ms ease;
+  }
+
+  .jornada__dot[data-active="true"] {
+    background: var(--color-lime);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .jornada__slide {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  const DURATION = 2000;
+
+  const frame = document.querySelector<HTMLDivElement>("#jornada");
+  if (frame) {
+    const slides = Array.from(frame.querySelectorAll<HTMLElement>(".jornada__slide"));
+    const dots = Array.from(frame.querySelectorAll<HTMLElement>(".jornada__dot"));
+    let index = 0;
+    let timer: ReturnType<typeof setInterval> | undefined;
+
+    const setActive = (i: number) => {
+      index = i;
+      slides.forEach((slide, si) => slide.setAttribute("data-active", String(si === i)));
+      dots.forEach((dot, di) => dot.setAttribute("data-active", String(di === i)));
+    };
+
+    const start = () => {
+      stop();
+      timer = setInterval(() => setActive((index + 1) % slides.length), DURATION);
+    };
+
+    const stop = () => {
+      if (timer) clearInterval(timer);
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActive(0);
+            start();
+          } else {
+            stop();
+          }
+        });
+      },
+      { threshold: 0.4 }
+    );
+
+    observer.observe(frame);
+  }
+</script>

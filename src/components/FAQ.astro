@@ -1,0 +1,132 @@
+---
+// Seção 10 — Perguntas Frequentes
+
+const faqs = [
+  {
+    q: "Qual a idade ideal para iniciar a fisioterapia infantil?",
+    a: "A fisioterapia pode ser indicada em qualquer fase, desde bebês até adolescentes. Em recém-nascidos pode ser necessária para condições como torcicolo congênito; em crianças maiores, para alterações posturais ou dores recorrentes. A avaliação inicial define a melhor abordagem para cada caso.",
+  },
+  {
+    q: "O atendimento tem cobertura de convênio médico?",
+    a: "Não. O atendimento na Clínica Renata Soares é particular. Os pagamentos podem ser realizados via débito ou Pix. Caso o plano de saúde ofereça reembolso, a clínica fornece a documentação necessária para solicitação junto à operadora.",
+  },
+  {
+    q: "Como funciona a primeira consulta?",
+    a: "É uma avaliação detalhada. Renata analisa o histórico de saúde da criança, avalia postura e padrões de movimento, e conversa com os pais sobre as queixas e objetivos. Ao final, um plano de tratamento personalizado é proposto.",
+  },
+  {
+    q: "O tratamento é doloroso para a criança?",
+    a: "Não. O atendimento é estruturado para ser acolhedor e, sempre que possível, lúdico. Técnicas baseadas em brincadeiras e exercícios adaptados garantem que a criança participe ativamente sem dor ou desconforto.",
+  },
+  {
+    q: "Qual a diferença entre fisioterapia infantil e para adultos?",
+    a: "Os princípios são os mesmos, mas a fisioterapia infantil considera as fases de crescimento e desenvolvimento. O tratamento é adaptado por faixa etária, com técnicas que estimulam o aprendizado motor e a participação ativa da criança.",
+  },
+];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((item) => ({
+    "@type": "Question",
+    name: item.q,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.a,
+    },
+  })),
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+<section class="section-wrap" id="faq">
+  <div class="container">
+    <div class="card-purple faq">
+      <p class="eyebrow fade-up">Perguntas frequentes</p>
+      <h2 class="fade-up fade-up-delay-1">Tire suas dúvidas</h2>
+
+      <div class="faq__list">
+        {
+          faqs.map((item, i) => (
+            <details class={`faq__item inset-panel fade-up fade-up-delay-${Math.min(i + 1, 4)}`}>
+              <summary>{item.q}</summary>
+              <p>{item.a}</p>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq h2 {
+    font-size: var(--font-h2);
+    margin-top: 0.75rem;
+  }
+
+  .faq__list {
+    margin-top: clamp(2rem, 1.5rem + 2vw, 3rem);
+    max-width: 48rem;
+    margin-inline: auto;
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .faq__item {
+    padding: 1.125rem 1.25rem;
+  }
+
+  .faq__item summary {
+    font-weight: 600;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .faq__item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__item summary::after {
+    content: "+";
+    color: var(--color-accent);
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .faq__item[open] summary::after {
+    content: "−";
+  }
+
+  .faq__item {
+    transition: box-shadow var(--transition-base);
+  }
+
+  .faq__item[open] {
+    box-shadow: 0 4px 16px -4px rgb(80 42 119 / 0.15);
+  }
+
+  .faq__item summary {
+    transition: color var(--transition-base);
+  }
+
+  .faq__item[open] summary {
+    color: var(--color-accent);
+  }
+
+  .faq__item p {
+    margin-top: 0.875rem;
+    color: var(--color-text-muted);
+    line-height: 1.65;
+    animation: faq-reveal 0.3s ease forwards;
+  }
+
+  @keyframes faq-reveal {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>

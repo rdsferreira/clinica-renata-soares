@@ -1,0 +1,244 @@
+---
+const whatsapp =
+  "https://wa.me/5511988171918?text=Ol%C3%A1%2C%20gostaria%20de%20agendar%20uma%20avalia%C3%A7%C3%A3o";
+
+const links = [
+  { href: "/#areas", label: "Áreas de Atuação" },
+  { href: "/#sobre", label: "Sobre a Renata" },
+  { href: "/#diferenciais", label: "Diferenciais" },
+  { href: "/#galeria", label: "Galeria" },
+  { href: "/#depoimentos", label: "Depoimentos" },
+  { href: "/#faq", label: "FAQ" },
+  { href: "/#contato", label: "Contato" },
+];
+---
+
+<header class="header">
+  <div class="container header__pill">
+    <a href="/#topo" class="header__brand" aria-label="Clínica Renata Soares — início">
+      <img
+        src="/logo-renata-verde.svg"
+        alt="Clínica Renata Soares"
+        class="header__logo"
+        width="120"
+        height="40"
+      />
+    </a>
+
+    <nav class="header__nav" aria-label="Navegação principal">
+      {links.map((link) => <a href={link.href}>{link.label}</a>)}
+    </nav>
+
+    <button
+      type="button"
+      class="header__toggle"
+      id="headerToggle"
+      aria-label="Abrir menu"
+      aria-expanded="false"
+      aria-controls="headerMobileNav"
+    >
+      <span class="header__toggle-bar"></span>
+      <span class="header__toggle-bar"></span>
+      <span class="header__toggle-bar"></span>
+    </button>
+  </div>
+
+  <nav
+    class="header__mobile-nav"
+    id="headerMobileNav"
+    aria-label="Navegação principal (mobile)"
+  >
+    {links.map((link) => <a href={link.href}>{link.label}</a>)}
+  </nav>
+</header>
+
+<style>
+  .header {
+    position: fixed;
+    inset-inline: 0;
+    top: 0;
+    z-index: 40;
+    padding: 1rem clamp(1rem, 0.5rem + 2vw, 1.5rem);
+  }
+
+  .header__pill {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.5rem 1.5rem 0.5rem 1rem;
+    border-radius: 999px;
+    background: rgb(80 42 119 / 0.65);
+    border: 1px solid rgb(255 255 255 / 0.35);
+    backdrop-filter: blur(16px) saturate(1.4);
+    -webkit-backdrop-filter: blur(16px) saturate(1.4);
+    box-shadow: 0 8px 24px -8px rgb(0 0 0 / 0.25);
+  }
+
+  .header__brand {
+    display: flex;
+    align-items: center;
+    color: #fff;
+  }
+
+  .header__logo {
+    width: auto;
+    height: 3rem;
+    object-fit: contain;
+  }
+
+  @media (min-width: 640px) {
+    .header__logo {
+      height: 3.5rem;
+    }
+  }
+
+  .header__nav {
+    display: none;
+    gap: 1.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+
+  .header__nav a {
+    text-decoration: none;
+    color: rgb(255 255 255 / 0.85);
+  }
+
+  .header__nav a:hover {
+    color: #fff;
+  }
+
+  @media (min-width: 960px) {
+    .header__nav {
+      display: flex;
+    }
+  }
+
+  /* ── Botão hambúrguer (mobile) ── */
+  .header__toggle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    width: 2.75rem;
+    height: 2.75rem;
+    flex-shrink: 0;
+    border: none;
+    background: transparent;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  .header__toggle-bar {
+    width: 20px;
+    height: 2px;
+    border-radius: 1px;
+    background: #fff;
+    transition: transform var(--transition-base), opacity var(--transition-base);
+  }
+
+  .header__toggle[aria-expanded="true"] .header__toggle-bar:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  .header__toggle[aria-expanded="true"] .header__toggle-bar:nth-child(2) {
+    opacity: 0;
+  }
+
+  .header__toggle[aria-expanded="true"] .header__toggle-bar:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  @media (min-width: 960px) {
+    .header__toggle {
+      display: none;
+    }
+  }
+
+  /* ── Painel mobile ── */
+  .header__mobile-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-top: 0.625rem;
+    padding: 0.5rem;
+    border-radius: 1.5rem;
+    background: rgb(80 42 119 / 0.9);
+    border: 1px solid rgb(255 255 255 / 0.35);
+    backdrop-filter: blur(16px) saturate(1.4);
+    -webkit-backdrop-filter: blur(16px) saturate(1.4);
+    box-shadow: 0 8px 24px -8px rgb(0 0 0 / 0.25);
+
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.3s ease, opacity 0.25s ease;
+  }
+
+  .header__mobile-nav.is-open {
+    max-height: 30rem;
+    opacity: 1;
+  }
+
+  .header__mobile-nav a {
+    text-decoration: none;
+    color: rgb(255 255 255 / 0.85);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    padding: 0.5rem 0.875rem;
+    border-radius: 0.625rem;
+    transition: background var(--transition-base), color var(--transition-base);
+  }
+
+  .header__mobile-nav a:hover {
+    background: rgb(255 255 255 / 0.1);
+    color: #fff;
+  }
+
+  @media (min-width: 960px) {
+    .header__mobile-nav {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>("#headerToggle");
+  const mobileNav = document.querySelector<HTMLElement>("#headerMobileNav");
+
+  if (toggle && mobileNav) {
+    const close = () => {
+      toggle.setAttribute("aria-expanded", "false");
+      mobileNav.classList.remove("is-open");
+    };
+
+    const open = () => {
+      toggle.setAttribute("aria-expanded", "true");
+      mobileNav.classList.add("is-open");
+    };
+
+    toggle.addEventListener("click", () => {
+      const isOpen = toggle.getAttribute("aria-expanded") === "true";
+      isOpen ? close() : open();
+    });
+
+    mobileNav.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", close);
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") close();
+    });
+
+    document.addEventListener("click", (e) => {
+      const target = e.target as Node;
+      if (!mobileNav.contains(target) && !toggle.contains(target)) close();
+    });
+  }
+</script>

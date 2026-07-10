@@ -1,0 +1,88 @@
+---
+// Seção 02 — Um cuidado que começa entendendo a causa
+---
+
+<section class="intro section" id="cuidado">
+  <div class="container intro__inner">
+    <div class="intro__text">
+      <p class="eyebrow-light">Fisioterapia Pediátrica</p>
+      <h2 class="intro__title">Um cuidado que começa entendendo a causa</h2>
+    </div>
+
+    <div class="intro__body">
+      <p>
+        Quando uma criança sente dor, apresenta alterações posturais ou encontra
+        dificuldades para se movimentar, o problema nem sempre está onde os
+        sintomas aparecem.
+      </p>
+      <p>
+        Por isso, cada atendimento começa com uma avaliação funcional completa,
+        que considera histórico de saúde, padrões de movimento, postura, rotina
+        e fase de desenvolvimento.
+      </p>
+      <p>
+        A partir dessa análise, é elaborado um plano terapêutico individualizado,
+        respeitando as necessidades de cada criança e adolescente.
+      </p>
+      <p class="intro__emphasis">
+        O objetivo não é apenas aliviar sintomas, mas promover um desenvolvimento
+        saudável e prevenir limitações futuras.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .intro {
+    background: var(--color-bg-alt);
+  }
+
+  .intro__inner {
+    display: grid;
+    gap: clamp(2rem, 1.5rem + 2vw, 3.5rem);
+    align-items: start;
+  }
+
+  .eyebrow-light {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--font-heading);
+    font-size: var(--font-small);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+
+  .intro__title {
+    font-size: var(--font-h2);
+    color: var(--color-text);
+    margin-top: 0.75rem;
+    max-width: 26ch;
+    text-wrap: balance;
+  }
+
+  .intro__body {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .intro__body p {
+    font-size: var(--font-body);
+    color: var(--color-text-muted);
+    max-width: 52ch;
+  }
+
+  .intro__emphasis {
+    font-weight: 600;
+    color: var(--color-text) !important;
+    border-left: 3px solid var(--color-lime);
+    padding-left: 1rem;
+  }
+
+  @media (min-width: 860px) {
+    .intro__inner {
+      grid-template-columns: 1fr 1.1fr;
+    }
+  }
+</style>

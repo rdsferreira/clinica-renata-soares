@@ -1,0 +1,199 @@
+---
+import { Image } from "astro:assets";
+
+import imgOrtopedia from "../../public/images/areas/ortopedia-pediatrica.jpg";
+import imgLesoes from "../../public/images/areas/lesoes-esportivas.jpg";
+import imgColuna from "../../public/images/areas/desvios-coluna.jpg";
+import imgReumaticas from "../../public/images/areas/afeccoes-reumaticas.jpg";
+import imgOsteo from "../../public/images/areas/osteocondrites.jpg";
+import imgReab from "../../public/images/areas/reabilitacao.jpg";
+
+const areas = [
+  {
+    title: "Ortopedia Pediátrica",
+    text: "Tratamento de alterações ortopédicas em crianças e adolescentes, com protocolos adaptados a cada fase do crescimento.",
+    img: imgOrtopedia,
+    alt: "Atendimento de ortopedia pediátrica",
+    accent: "orange",
+  },
+  {
+    title: "Lesões Esportivas Juvenis",
+    text: "Tratamento e reabilitação de entorses, lesões ligamentares e sobrecargas em jovens atletas.",
+    img: imgLesoes,
+    alt: "Jovem atleta em reabilitação de lesão esportiva",
+    accent: "lime",
+  },
+  {
+    title: "Desvios de Coluna",
+    text: "Acompanhamento especializado de escoliose, hipercifose e hiperlordose, com técnicas como RPG e Pilates Clínico.",
+    img: imgColuna,
+    alt: "Avaliação postural de desvio de coluna",
+    accent: "purple",
+  },
+  {
+    title: "Afecções Reumáticas e Complexas",
+    text: "Experiência no acompanhamento de crianças e adolescentes com Artrite Idiopática Juvenil, Lúpus e Fibromialgia Pediátrica.",
+    img: imgReumaticas,
+    alt: "Atendimento fisioterapêutico para afecções reumáticas",
+    accent: "orange",
+  },
+  {
+    title: "Osteocondrites e Dores de Crescimento",
+    text: "Avaliação e tratamento de condições como Osgood-Schlatter, Doença de Sever e outras alterações que impactam mobilidade e qualidade de vida.",
+    img: imgOsteo,
+    alt: "Tratamento de osteocondrites em adolescente",
+    accent: "lime",
+  },
+  {
+    title: "Reabilitação Pós-Cirúrgica",
+    text: "Protocolos individualizados para recuperação funcional e retorno seguro às atividades.",
+    img: imgReab,
+    alt: "Reabilitação pós-cirúrgica em jovem paciente",
+    accent: "purple",
+  },
+];
+---
+
+<section class="section-wrap" id="areas">
+  <div class="container">
+    <div class="card-purple areas">
+      <div class="areas__header fade-up">
+        <p class="eyebrow">Especialidade</p>
+        <h2>Áreas de Atuação</h2>
+      </div>
+
+      <ul class="areas__grid">
+        {
+          areas.map((area, i) => (
+            <li class={`areas__card fade-up fade-up-delay-${(i % 3) + 1}`}>
+              <Image
+                src={area.img}
+                alt={area.alt}
+                width={480}
+                height={480}
+                class="areas__img"
+              />
+              <div class={`areas__bar areas__bar--${area.accent}`} />
+              <div class="areas__overlay">
+                <h3>{area.title}</h3>
+                <p>{area.text}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .areas__header {
+    margin-bottom: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+  }
+
+  .areas h2 {
+    font-size: var(--font-h2);
+    margin-top: 0.75rem;
+  }
+
+  .areas__grid {
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 600px) {
+    .areas__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 960px) {
+    .areas__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  /* Card — imagem com overlay de texto */
+  .areas__card {
+    position: relative;
+    border-radius: 1.125rem;
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+  }
+
+  .areas__card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 16px 40px -8px rgb(0 0 0 / 0.35);
+  }
+
+  /* Foto preenche o card por inteiro */
+  .areas__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+  }
+
+  .areas__card:hover .areas__img {
+    transform: scale(1.05);
+  }
+
+  /* Faixa de cor no topo */
+  .areas__bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    z-index: 2;
+  }
+
+  .areas__bar--orange { background: var(--color-orange); }
+  .areas__bar--lime   { background: var(--color-lime); }
+  .areas__bar--purple { background: #8b5cf6; }
+
+  /* Overlay gradiente + texto */
+  .areas__overlay {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 55%;
+    padding: 2rem 1.25rem 1.125rem;
+    background: linear-gradient(
+      to top,
+      rgb(0 0 0 / 0.88) 0%,
+      rgb(0 0 0 / 0.6) 50%,
+      transparent 100%
+    );
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 0.4rem;
+    z-index: 1;
+  }
+
+  .areas__overlay h3 {
+    display: flex;
+    align-items: flex-start;
+    min-height: calc(0.9375rem * 1.25 * 2);
+    font-size: 0.9375rem;
+    color: #fff;
+    line-height: 1.25;
+    text-shadow: 0 1px 3px rgb(0 0 0 / 0.4);
+  }
+
+  .areas__overlay p {
+    min-height: calc(0.8125rem * 1.55 * 4);
+    font-size: 0.8125rem;
+    color: rgb(255 255 255 / 0.82);
+    line-height: 1.55;
+    margin: 0;
+    text-shadow: 0 1px 2px rgb(0 0 0 / 0.35);
+  }
+</style>

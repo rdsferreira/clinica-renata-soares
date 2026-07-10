@@ -1,0 +1,252 @@
+---
+// Seção 07 — Um ambiente pensado para crianças e adolescentes
+import { Image } from "astro:assets";
+import clinic01 from "../../public/images/clinica-carrossel-01.jpg";
+import clinic02 from "../../public/images/clinica-carrossel-02.jpg";
+import clinic03 from "../../public/images/clinica-carrossel-03.jpg";
+import clinic04 from "../../public/images/clinica-carrossel-04.jpg";
+import clinic05 from "../../public/images/clinica-carrossel-05.jpg";
+
+const clinicPhotos = [
+  { src: clinic01, alt: "Sala de Pilates equipada com reformer e bolas suíças" },
+  { src: clinic02, alt: "Corredor de recepção da clínica, com poltronas e iluminação aconchegante" },
+  { src: clinic03, alt: "Sala de atendimento com espaldar e materiais de fisioterapia" },
+  { src: clinic04, alt: "Sala de treinamento funcional com espelho e equipamentos" },
+  { src: clinic05, alt: "Corredor da clínica com arte na porta e ambiente descontraído" },
+];
+---
+
+<section class="section-wrap" id="ambiente">
+  <div class="container">
+    <div class="card-purple ambiente">
+      <div class="ambiente__inner">
+        <div class="ambiente__copy fade-up">
+          <p class="eyebrow">Espaço da Clínica</p>
+          <h2>Um ambiente pensado para crianças e adolescentes</h2>
+          <p>
+            O consultório está localizado em Alphaville, Barueri/SP — um
+            espaço organizado, acolhedor e equipado para avaliação e
+            tratamento fisioterapêutico pediátrico. A estrutura favorece o
+            desenvolvimento motor e a participação ativa da criança durante
+            o tratamento.
+          </p>
+          <p>
+            Os atendimentos são particulares, com horários flexíveis de
+            segunda a sexta, das 8h às 20h, para se encaixar na rotina da
+            família.
+          </p>
+          <p>
+            Conheça o espaço e agende uma avaliação para entender como o
+            tratamento pode ser adaptado às necessidades do seu filho.
+          </p>
+        </div>
+
+        <div class="ambiente__clinic fade-up fade-up-delay-1">
+          <div class="clinic-carousel" id="clinicCarousel">
+            {
+              clinicPhotos.map((photo, i) => (
+                <Image
+                  src={photo.src}
+                  alt={photo.alt}
+                  width={420}
+                  height={420}
+                  loading="lazy"
+                  class="clinic-carousel__slide"
+                  data-active={i === 0 ? "true" : "false"}
+                />
+              ))
+            }
+            <button
+              type="button"
+              class="clinic-carousel__nav clinic-carousel__nav--prev"
+              aria-label="Foto anterior da clínica"
+            >
+              ‹
+            </button>
+            <button
+              type="button"
+              class="clinic-carousel__nav clinic-carousel__nav--next"
+              aria-label="Próxima foto da clínica"
+            >
+              ›
+            </button>
+          </div>
+          <div class="clinic-carousel__dots">
+            {clinicPhotos.map((_, i) => (
+              <span class="clinic-carousel__dot" data-active={i === 0 ? "true" : "false"} />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ambiente__inner {
+    display: grid;
+    gap: clamp(2rem, 1.5rem + 2vw, 3rem);
+    align-items: center;
+  }
+
+  .ambiente__copy h2 {
+    font-size: var(--font-h2);
+    margin-top: 0.75rem;
+    max-width: 26ch;
+    text-wrap: balance;
+  }
+
+  .ambiente__copy p {
+    margin-top: 1.25rem;
+    max-width: 44ch;
+  }
+
+  /* ── Carrossel de fotos da clínica ── */
+  .clinic-carousel {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    background: var(--color-accent-tint);
+  }
+
+  .clinic-carousel__slide {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 900ms ease;
+  }
+
+  .clinic-carousel__slide[data-active="true"] {
+    opacity: 1;
+  }
+
+  .clinic-carousel__nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    border: none;
+    background: rgb(255 255 255 / 0.85);
+    color: var(--color-accent);
+    font-size: 1rem;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    transition: background var(--transition-base);
+  }
+
+  .clinic-carousel__nav:hover {
+    background: #fff;
+  }
+
+  .clinic-carousel__nav--prev {
+    left: 0.5rem;
+  }
+
+  .clinic-carousel__nav--next {
+    right: 0.5rem;
+  }
+
+  .clinic-carousel__dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.375rem;
+    margin-top: 0.625rem;
+  }
+
+  .clinic-carousel__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgb(255 255 255 / 0.35);
+    transition: background var(--transition-base);
+  }
+
+  .clinic-carousel__dot[data-active="true"] {
+    background: var(--color-lime);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .clinic-carousel__slide {
+      transition: none;
+    }
+  }
+
+  @media (min-width: 860px) {
+    .ambiente__inner {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>
+
+<script>
+  const DURATION = 3500;
+
+  const carousel = document.querySelector<HTMLDivElement>("#clinicCarousel");
+  if (carousel) {
+    const slides = Array.from(carousel.querySelectorAll<HTMLElement>(".clinic-carousel__slide"));
+    const dots = Array.from(
+      carousel.parentElement?.querySelectorAll<HTMLElement>(".clinic-carousel__dot") ?? []
+    );
+    const prevBtn = carousel.querySelector<HTMLButtonElement>(".clinic-carousel__nav--prev");
+    const nextBtn = carousel.querySelector<HTMLButtonElement>(".clinic-carousel__nav--next");
+
+    let index = 0;
+    let timer: ReturnType<typeof setInterval> | undefined;
+
+    const setActive = (i: number) => {
+      index = (i + slides.length) % slides.length;
+      slides.forEach((slide, si) => slide.setAttribute("data-active", String(si === index)));
+      dots.forEach((dot, di) => dot.setAttribute("data-active", String(di === index)));
+    };
+
+    const start = () => {
+      stop();
+      timer = setInterval(() => setActive(index + 1), DURATION);
+    };
+
+    const stop = () => {
+      if (timer) clearInterval(timer);
+    };
+
+    carousel.addEventListener("mouseenter", stop);
+    carousel.addEventListener("mouseleave", start);
+    carousel.addEventListener("touchstart", stop, { passive: true });
+
+    prevBtn?.addEventListener("click", () => {
+      setActive(index - 1);
+      start();
+    });
+    nextBtn?.addEventListener("click", () => {
+      setActive(index + 1);
+      start();
+    });
+    dots.forEach((dot, i) =>
+      dot.addEventListener("click", () => {
+        setActive(i);
+        start();
+      })
+    );
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) start();
+          else stop();
+        });
+      },
+      { threshold: 0.4 }
+    );
+    observer.observe(carousel);
+  }
+</script>

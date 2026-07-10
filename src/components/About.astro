@@ -1,0 +1,151 @@
+---
+// Seção 05 — Quem é Renata Soares
+import { Image } from "astro:assets";
+import portraitImage from "../../public/images/renata-vertical-02.jpeg";
+
+const qualifications = [
+  "Mestre em Ciências da Saúde pela UNIFESP",
+  "Especialista em Dor",
+  "Especialista no aparelho locomotor do esporte",
+  "Experiência com casos complexos e condições reumáticas pediátricas",
+];
+---
+
+<section class="section-wrap" id="sobre">
+  <div class="container">
+    <div class="card-purple about">
+      <div class="about__profile fade-up">
+        <div class="about__profile-intro">
+          <p class="eyebrow">Sobre a profissional</p>
+          <h2>Renata Soares</h2>
+        </div>
+
+        <Image
+          src={portraitImage}
+          alt="Renata Soares no ambiente da clínica"
+          width={900}
+          height={1200}
+          class="about__portrait"
+        />
+
+        <div class="about__profile-body">
+          <div class="about__profile-text">
+            <p class="about__lead">
+              Mestre em Ciências da Saúde pela UNIFESP, Renata Soares dedica
+              sua atuação à saúde musculoesquelética de crianças e
+              adolescentes.
+            </p>
+            <p class="about__lead">
+              Sua formação acadêmica, aliada à experiência clínica em casos
+              complexos e doenças reumáticas pediátricas, permite uma
+              abordagem que combina rigor científico e acolhimento.
+            </p>
+            <p class="about__lead">
+              Escolheu Alphaville para oferecer às famílias de Barueri e
+              região um atendimento especializado, próximo de casa e
+              alinhado aos mais elevados padrões de qualidade.
+            </p>
+          </div>
+
+          <ul class="about__list">
+            {qualifications.map((q) => <li>{q}</li>)}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about__profile {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(1.5rem, 1.2rem + 1.2vw, 2rem);
+  }
+
+  .about__portrait {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    border-radius: 1.25rem;
+    display: block;
+  }
+
+  .about__profile-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1.75rem;
+  }
+
+  .about__profile-intro h2 {
+    font-size: var(--font-h2);
+    margin-top: 0.75rem;
+    white-space: nowrap;
+  }
+
+  .about__lead {
+    margin-top: 1rem;
+    max-width: 60ch;
+  }
+
+  .about__list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .about__list li {
+    padding-left: 1.5rem;
+    position: relative;
+    font-weight: 500;
+    font-size: var(--font-small);
+  }
+
+  .about__list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.5em;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--color-lime);
+  }
+
+  @media (min-width: 640px) {
+    .about__list {
+      grid-template-columns: 1fr 1fr;
+      column-gap: 1.5rem;
+    }
+  }
+
+  @media (min-width: 860px) {
+    .about__profile {
+      display: grid;
+      grid-template-columns: minmax(260px, 34%) 1fr;
+      align-items: stretch;
+      gap: clamp(2rem, 1.5rem + 2vw, 3rem);
+    }
+
+    .about__profile-intro {
+      grid-column: 2;
+      grid-row: 1;
+    }
+
+    .about__portrait {
+      grid-column: 1;
+      grid-row: 1 / span 2;
+      width: 100%;
+      height: 100%;
+      aspect-ratio: auto;
+    }
+
+    .about__profile-body {
+      grid-column: 2;
+      grid-row: 2;
+    }
+  }
+</style>

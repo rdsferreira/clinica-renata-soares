@@ -1,0 +1,289 @@
+---
+// Banner de consentimento de cookies (LGPD).
+// Guarda a escolha em localStorage e dispara o evento "rs:cookie-consent"
+// com o detalhe { essential, analytics, functionality, marketing } sempre
+// que o usuário aceita/recusa/salva preferências — é nesse evento que,
+// futuramente, os scripts do Google Analytics / Meta Pixel / Google Ads
+// devem "escutar" antes de carregar (ver comentário no <script> abaixo).
+---
+
+<div class="cookie-consent" id="cookieConsent" role="dialog" aria-live="polite" aria-label="Preferências de cookies">
+  <div class="cookie-consent__card">
+    <div class="cookie-consent__main" id="cookieConsentMain">
+      <p class="cookie-consent__text">
+        Usamos cookies essenciais para o funcionamento do site e, mediante seu consentimento,
+        cookies de análise e marketing para melhorar sua experiência. Leia nossa
+        <a href="/politica-de-privacidade">Política de Privacidade e Cookies</a>.
+      </p>
+      <div class="cookie-consent__actions">
+        <button type="button" class="cookie-consent__btn cookie-consent__btn--ghost" id="cookieCustomize">
+          Personalizar
+        </button>
+        <button type="button" class="cookie-consent__btn cookie-consent__btn--outline" id="cookieRejectAll">
+          Recusar não essenciais
+        </button>
+        <button type="button" class="cookie-consent__btn cookie-consent__btn--primary" id="cookieAcceptAll">
+          Aceitar todos
+        </button>
+      </div>
+    </div>
+
+    <div class="cookie-consent__panel" id="cookieConsentPanel" hidden>
+      <label class="cookie-consent__option">
+        <input type="checkbox" checked disabled />
+        <span>
+          <strong>Essenciais</strong>
+          <small>Necessários para o funcionamento do site. Não podem ser desativados.</small>
+        </span>
+      </label>
+      <label class="cookie-consent__option">
+        <input type="checkbox" id="cookieAnalytics" />
+        <span>
+          <strong>Análise</strong>
+          <small>Estatísticas de uso (ex: Google Analytics) para entender e melhorar o site.</small>
+        </span>
+      </label>
+      <label class="cookie-consent__option">
+        <input type="checkbox" id="cookieFunctionality" />
+        <span>
+          <strong>Funcionalidade</strong>
+          <small>Lembram preferências da sua visita.</small>
+        </span>
+      </label>
+      <label class="cookie-consent__option">
+        <input type="checkbox" id="cookieMarketing" />
+        <span>
+          <strong>Marketing</strong>
+          <small>Mensuração de campanhas (ex: Meta Pixel, Google Ads).</small>
+        </span>
+      </label>
+
+      <div class="cookie-consent__actions">
+        <button type="button" class="cookie-consent__btn cookie-consent__btn--outline" id="cookiePanelBack">
+          Voltar
+        </button>
+        <button type="button" class="cookie-consent__btn cookie-consent__btn--primary" id="cookieSavePrefs">
+          Salvar preferências
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .cookie-consent {
+    position: fixed;
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 70;
+    display: flex;
+    justify-content: flex-start;
+    pointer-events: none;
+  }
+
+  .cookie-consent.is-hidden {
+    display: none;
+  }
+
+  .cookie-consent__card {
+    pointer-events: auto;
+    width: 100%;
+    max-width: 26rem;
+    background: var(--color-accent-dark);
+    color: #fff;
+    border-radius: 1.25rem;
+    padding: 1.25rem;
+    box-shadow: 0 16px 40px -8px rgb(0 0 0 / 0.45);
+    border: 1px solid rgb(255 255 255 / 0.12);
+  }
+
+  .cookie-consent__text {
+    font-size: var(--font-small);
+    line-height: 1.6;
+    color: rgb(255 255 255 / 0.85);
+  }
+
+  .cookie-consent__text a {
+    color: var(--color-lime);
+    text-decoration: underline;
+  }
+
+  .cookie-consent__actions {
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .cookie-consent__btn {
+    flex: 1;
+    min-width: fit-content;
+    padding: 0.625rem 1rem;
+    border-radius: 999px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background var(--transition-base), color var(--transition-base), border-color var(--transition-base);
+    white-space: nowrap;
+  }
+
+  .cookie-consent__btn--primary {
+    border: none;
+    background: var(--color-lime);
+    color: var(--color-accent-dark);
+  }
+
+  .cookie-consent__btn--primary:hover {
+    filter: brightness(1.08);
+  }
+
+  .cookie-consent__btn--outline {
+    border: 1px solid rgb(255 255 255 / 0.35);
+    background: transparent;
+    color: #fff;
+  }
+
+  .cookie-consent__btn--outline:hover {
+    background: rgb(255 255 255 / 0.1);
+  }
+
+  .cookie-consent__btn--ghost {
+    border: none;
+    background: transparent;
+    color: rgb(255 255 255 / 0.7);
+    flex: 0 0 auto;
+    padding-inline: 0.25rem;
+    text-decoration: underline;
+  }
+
+  .cookie-consent__panel[hidden] {
+    display: none;
+  }
+
+  .cookie-consent__panel {
+    margin-top: 0.5rem;
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .cookie-consent__option {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.625rem;
+    font-size: var(--font-small);
+    cursor: pointer;
+  }
+
+  .cookie-consent__option input {
+    margin-top: 0.2rem;
+    flex-shrink: 0;
+    accent-color: var(--color-lime);
+  }
+
+  .cookie-consent__option span {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+
+  .cookie-consent__option small {
+    color: rgb(255 255 255 / 0.6);
+  }
+
+  @media (max-width: 480px) {
+    .cookie-consent__btn {
+      flex: 1 1 100%;
+    }
+  }
+</style>
+
+<script>
+  const STORAGE_KEY = "rs_cookie_consent";
+
+  type Consent = {
+    essential: true;
+    analytics: boolean;
+    functionality: boolean;
+    marketing: boolean;
+    timestamp: string;
+  };
+
+  const banner = document.querySelector<HTMLDivElement>("#cookieConsent");
+  const main = document.querySelector<HTMLDivElement>("#cookieConsentMain");
+  const panel = document.querySelector<HTMLDivElement>("#cookieConsentPanel");
+  const analyticsInput = document.querySelector<HTMLInputElement>("#cookieAnalytics");
+  const functionalityInput = document.querySelector<HTMLInputElement>("#cookieFunctionality");
+  const marketingInput = document.querySelector<HTMLInputElement>("#cookieMarketing");
+
+  const readConsent = (): Consent | null => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch {
+      return null;
+    }
+  };
+
+  const applyConsent = (consent: Consent) => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(consent));
+    document.documentElement.classList.remove("has-cookie-banner");
+    banner?.classList.add("is-hidden");
+
+    // TODO: quando tiver os IDs de rastreamento, plugue o carregamento aqui:
+    // if (consent.analytics) { /* carregar Google Analytics (gtag.js) */ }
+    // if (consent.marketing) { /* carregar Meta Pixel / Google Ads */ }
+    window.dispatchEvent(new CustomEvent("rs:cookie-consent", { detail: consent }));
+  };
+
+  const show = (existing?: Consent | null) => {
+    if (existing) {
+      if (analyticsInput) analyticsInput.checked = existing.analytics;
+      if (functionalityInput) functionalityInput.checked = existing.functionality;
+      if (marketingInput) marketingInput.checked = existing.marketing;
+    }
+    document.documentElement.classList.add("has-cookie-banner");
+    banner?.classList.remove("is-hidden");
+    if (main) main.hidden = false;
+    if (panel) panel.hidden = true;
+  };
+
+  const existing = readConsent();
+  if (!existing) {
+    show();
+  } else {
+    banner?.classList.add("is-hidden");
+  }
+
+  document.querySelector("#cookieAcceptAll")?.addEventListener("click", () => {
+    applyConsent({ essential: true, analytics: true, functionality: true, marketing: true, timestamp: new Date().toISOString() });
+  });
+
+  document.querySelector("#cookieRejectAll")?.addEventListener("click", () => {
+    applyConsent({ essential: true, analytics: false, functionality: false, marketing: false, timestamp: new Date().toISOString() });
+  });
+
+  document.querySelector("#cookieCustomize")?.addEventListener("click", () => {
+    if (main) main.hidden = true;
+    if (panel) panel.hidden = false;
+  });
+
+  document.querySelector("#cookiePanelBack")?.addEventListener("click", () => {
+    if (main) main.hidden = false;
+    if (panel) panel.hidden = true;
+  });
+
+  document.querySelector("#cookieSavePrefs")?.addEventListener("click", () => {
+    applyConsent({
+      essential: true,
+      analytics: !!analyticsInput?.checked,
+      functionality: !!functionalityInput?.checked,
+      marketing: !!marketingInput?.checked,
+      timestamp: new Date().toISOString(),
+    });
+  });
+
+  window.addEventListener("cookie-consent:open", () => {
+    show(readConsent());
+  });
+</script>

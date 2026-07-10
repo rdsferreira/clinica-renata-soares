@@ -1,0 +1,107 @@
+---
+// Faixa de autoridade/credenciais — entre hero e intro
+
+const cards = [
+  {
+    label: "Formação",
+    value: "Mestre em Ciências da Saúde",
+    detail: "UNIFESP",
+    color: "purple",
+  },
+  {
+    label: "Pesquisa",
+    value: "Doutoranda em Ciências da Saúde",
+    detail: "UNIFESP",
+    color: "lime",
+  },
+  {
+    label: "Especialidade",
+    value: "Dor Pediátrica",
+    detail: "Aparelho Locomotor do Esporte",
+    color: "orange",
+  },
+  {
+    label: "Localização",
+    value: "Alphaville",
+    detail: "Barueri, SP",
+    color: "purple",
+  },
+];
+---
+
+<div class="autoridade">
+  <div class="container autoridade__grid">
+    {
+      cards.map((card, i) => (
+        <div class={`autoridade__card fade-up fade-up-delay-${i + 1}`}>
+          <span class={`autoridade__label autoridade__label--${card.color}`}>
+            {card.label}
+          </span>
+          <strong class="autoridade__value">{card.value}</strong>
+          <span class="autoridade__detail">{card.detail}</span>
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .autoridade {
+    background: var(--color-accent-dark);
+    padding-block: 1.5rem;
+  }
+
+  .autoridade__grid {
+    display: grid;
+    gap: 1px;
+    grid-template-columns: repeat(2, 1fr);
+    background: rgb(255 255 255 / 0.08);
+    border-radius: 1rem;
+    overflow: hidden;
+  }
+
+  @media (min-width: 760px) {
+    .autoridade__grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .autoridade__card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 1.25rem 1.5rem;
+    background: rgb(255 255 255 / 0.04);
+    transition: background var(--transition-base), transform var(--transition-base);
+  }
+
+  .autoridade__card:hover {
+    background: rgb(255 255 255 / 0.09);
+    transform: translateY(-4px);
+  }
+
+  .autoridade__label {
+    font-family: var(--font-heading);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .autoridade__label--purple { color: rgb(177 195 70 / 1); } /* lime para contraste */
+  .autoridade__label--lime   { color: rgb(177 195 70 / 1); }
+  .autoridade__label--orange { color: var(--color-orange); }
+
+  .autoridade__value {
+    font-family: var(--font-heading);
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.3;
+  }
+
+  .autoridade__detail {
+    font-size: 0.8125rem;
+    color: rgb(255 255 255 / 0.55);
+  }
+</style>
