@@ -111,6 +111,12 @@ const whatsapp =
     text-wrap: balance;
   }
 
+  @media (max-width: 640px) {
+    .hero__title {
+      line-height: 1.25;
+    }
+  }
+
   .hero__highlight {
     color: var(--color-orange);
   }
@@ -123,6 +129,13 @@ const whatsapp =
     color: rgb(255 255 255 / 0.88);
     max-width: 44ch;
     line-height: 1.7;
+  }
+
+  @media (max-width: 640px) {
+    .hero__subtitle {
+      font-size: 0.875rem;
+      line-height: 1.45;
+    }
   }
 
   .hero__subtitle-lead {
