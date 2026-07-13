@@ -18,21 +18,21 @@ const areas = [
   },
   {
     title: "Lesões Esportivas Juvenis",
-    text: "Tratamento e reabilitação de entorses, lesões ligamentares e sobrecargas em jovens atletas.",
+    text: "Tratamento e reabilitação de entorses, lesões ligamentares e sobrecargas em crianças e adolescentes atletas.",
     img: imgLesoes,
     alt: "Jovem atleta em reabilitação de lesão esportiva",
     accent: "lime",
   },
   {
     title: "Desvios de Coluna",
-    text: "Acompanhamento especializado de escoliose, hipercifose e hiperlordose, com técnicas como RPG e Pilates Clínico.",
+    text: "Acompanhamento especializado de escoliose, hipercifose e hiperlordose.",
     img: imgColuna,
     alt: "Avaliação postural de desvio de coluna",
     accent: "purple",
   },
   {
-    title: "Afecções Reumáticas e Complexas",
-    text: "Experiência no acompanhamento de crianças e adolescentes com Artrite Idiopática Juvenil, Lúpus e Fibromialgia Pediátrica.",
+    title: "Reumatologia Pediátrica",
+    text: "Tratamento cinético funcional (fisioterapia) para crianças e adolescentes com Artrite Idiopática Juvenil, Dermatomiosite Juvenil, Lúpus Juvenil, Fibromialgia Juvenil e outras afecções reumatológicas.",
     img: imgReumaticas,
     alt: "Atendimento fisioterapêutico para afecções reumáticas",
     accent: "orange",
@@ -195,5 +195,21 @@ const areas = [
     line-height: 1.55;
     margin: 0;
     text-shadow: 0 1px 2px rgb(0 0 0 / 0.35);
+  }
+
+  /* Mobile: cards mais altos e overlay maior — os textos mais longos (ex.: Reumatologia
+     Pediátrica) não cabiam nos 55% de altura e ficavam cortados. */
+  @media (max-width: 640px) {
+    .areas__card {
+      aspect-ratio: 3 / 4;
+    }
+
+    .areas__overlay {
+      height: 68%;
+    }
+
+    .areas__overlay p {
+      min-height: 0;
+    }
   }
 </style>
