@@ -71,6 +71,33 @@ const mapsHref =
     }
   }
 
+  /* Desktop: título em 1 linha, parágrafo em ~2 linhas, faixa mais baixa (menos vazio) */
+  @media (min-width: 641px) {
+    .contact__inner {
+      padding-block: clamp(1.5rem, 1.2rem + 1vw, 2.25rem);
+    }
+
+    .contact__header {
+      margin-bottom: 1.25rem;
+    }
+
+    .contact__header h2 {
+      max-width: none;
+    }
+
+    .contact__cta {
+      max-width: 54rem;
+    }
+
+    .contact__cta p {
+      max-width: none;
+    }
+
+    .contact__actions {
+      margin-top: 1.5rem;
+    }
+  }
+
   .contact__actions {
     margin-top: 2rem;
     display: flex;

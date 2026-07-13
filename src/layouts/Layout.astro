@@ -22,19 +22,27 @@ const ogImageUrl =
 
 const schema = {
   "@context": "https://schema.org",
-  "@type": "MedicalBusiness",
+  "@type": "PhysicalTherapy",
   name: "Clínica Renata Soares — Fisioterapia Pediátrica",
   description,
   medicalSpecialty: "Pediatric",
   url: canonical?.toString(),
+  image: ogImageUrl?.toString(),
   telephone: "+55-11-98817-1918",
   email: "fisioterapeutarenata@gmail.com",
+  priceRange: "$$",
   address: {
     "@type": "PostalAddress",
     streetAddress: "Alameda Grajaú, 60 - Sala 1010, Alphaville Industrial",
     addressLocality: "Barueri",
     addressRegion: "SP",
+    postalCode: "06454-050",
     addressCountry: "BR",
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: -23.4953194,
+    longitude: -46.8470664,
   },
   openingHoursSpecification: {
     "@type": "OpeningHoursSpecification",

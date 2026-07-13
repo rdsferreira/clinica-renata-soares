@@ -24,15 +24,16 @@ const whatsapp =
     bottom: 1.25rem;
     right: 1.25rem;
     z-index: 50;
-    width: 3.25rem;
-    height: 3.25rem;
+    width: 3.75rem;
+    height: 3.75rem;
     border-radius: 50%;
-    background: var(--color-accent);
+    background: #25d366;
     color: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 10px 24px -6px rgb(0 0 0 / 0.35);
+    box-shadow: 0 10px 26px -6px rgb(37 211 102 / 0.55);
+    animation: whatsapp-pulse 2.4s ease-in-out infinite;
     transition: transform 0.15s ease, opacity 0.2s ease;
   }
 
@@ -47,7 +48,22 @@ const whatsapp =
   }
 
   .whatsapp-float svg {
-    width: 1.75rem;
-    height: 1.75rem;
+    width: 2rem;
+    height: 2rem;
+  }
+
+  @keyframes whatsapp-pulse {
+    0%, 100% {
+      box-shadow: 0 10px 26px -6px rgb(37 211 102 / 0.55), 0 0 0 0 rgb(37 211 102 / 0.45);
+    }
+    50% {
+      box-shadow: 0 10px 26px -6px rgb(37 211 102 / 0.55), 0 0 0 10px rgb(37 211 102 / 0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .whatsapp-float {
+      animation: none;
+    }
   }
 </style>

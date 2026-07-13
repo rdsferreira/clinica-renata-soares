@@ -1,5 +1,7 @@
 ---
 // Seção 09 — Trabalho integrado com médicos
+const whatsapp =
+  "https://wa.me/5511988171918?text=Ol%C3%A1%2C%20sou%20m%C3%A9dico%28a%29%20e%20gostaria%20de%20falar%20sobre%20um%20paciente";
 ---
 
 <section class="section" id="medicos">
@@ -19,6 +21,11 @@
         Quando necessário, são elaborados relatórios evolutivos e devolutivas
         técnicas para acompanhamento conjunto.
       </p>
+
+      <a class="medpartners__cta" href={whatsapp} target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Falar com a Equipe
+      </a>
     </div>
 
     <ul class="medpartners__cards">
@@ -142,9 +149,83 @@
     }
   }
 
+  /* ---- Liquid Glass roxo — preenchimento roxo sólido + borda esbranquiçada, igual aos demais CTAs do site ---- */
+  .medpartners__cta {
+    display: none;
+    position: relative;
+    overflow: hidden;
+    align-items: center;
+    justify-content: center;
+    gap: 0.625rem;
+    min-height: 44px;
+    padding: 1rem 1.75rem;
+    border-radius: 999px;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: var(--font-small);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    color: #fff;
+    background: var(--color-accent);
+    backdrop-filter: blur(20px) saturate(1.8) brightness(1.05);
+    -webkit-backdrop-filter: blur(20px) saturate(1.8) brightness(1.05);
+    border: 1px solid rgb(255 255 255 / 0.4);
+    box-shadow:
+      0 8px 24px -6px rgb(80 42 119 / 0.4),
+      inset 0 1.5px 0 rgb(255 255 255 / 0.35),
+      inset 0 -1px 0 rgb(0 0 0 / 0.15);
+    transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease;
+  }
+
+  .medpartners__cta::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    bottom: 50%;
+    background: linear-gradient(to bottom, rgb(255 255 255 / 0.22) 0%, transparent 100%);
+    border-radius: inherit;
+    pointer-events: none;
+  }
+
+  .medpartners__cta::after {
+    content: "";
+    position: absolute;
+    inset: -60%;
+    background: linear-gradient(
+      108deg,
+      transparent 33%,
+      rgb(255 255 255 / 0.14) 48%,
+      rgb(255 255 255 / 0.22) 50%,
+      rgb(255 255 255 / 0.14) 52%,
+      transparent 67%
+    );
+    transform: translateX(-120%) rotate(12deg);
+    transition: transform 0.55s ease;
+    pointer-events: none;
+  }
+
+  .medpartners__cta:hover::after {
+    transform: translateX(120%) rotate(12deg);
+  }
+
+  .medpartners__cta:hover {
+    background: var(--color-accent-dark);
+    box-shadow:
+      0 12px 32px -6px rgb(80 42 119 / 0.5),
+      inset 0 1.5px 0 rgb(255 255 255 / 0.45),
+      inset 0 -1px 0 rgb(0 0 0 / 0.15);
+    transform: translateY(-2px);
+  }
+
   @media (min-width: 860px) {
     .medpartners__inner {
       grid-template-columns: 1fr 1fr;
+    }
+
+    .medpartners__cta {
+      display: inline-flex;
+      margin-top: 2rem;
     }
   }
 </style>
