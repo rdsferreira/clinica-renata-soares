@@ -118,7 +118,7 @@ const clinicPhotos = [
     height: 100%;
     object-fit: cover;
     opacity: 0;
-    transition: opacity 900ms ease;
+    transition: opacity 900ms var(--ease-in-out);
   }
 
   .clinic-carousel__slide[data-active="true"] {
@@ -129,8 +129,8 @@ const clinicPhotos = [
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    width: 2rem;
-    height: 2rem;
+    width: 2.75rem;
+    height: 2.75rem;
     border-radius: 50%;
     border: none;
     background: rgb(255 255 255 / 0.85);
@@ -142,11 +142,17 @@ const clinicPhotos = [
     align-items: center;
     justify-content: center;
     z-index: 1;
-    transition: background var(--transition-base);
+    transition: background var(--transition-base), transform 0.15s var(--ease-out);
   }
 
-  .clinic-carousel__nav:hover {
-    background: #fff;
+  @media (hover: hover) and (pointer: fine) {
+    .clinic-carousel__nav:hover {
+      background: #fff;
+    }
+  }
+
+  .clinic-carousel__nav:active {
+    transform: translateY(-50%) scale(0.9);
   }
 
   .clinic-carousel__nav--prev {

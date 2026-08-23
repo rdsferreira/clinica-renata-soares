@@ -183,7 +183,7 @@ const testimonials = [
     filter: blur(4px);
     opacity: 0.4;
     transform: scale(0.92);
-    transition: filter 0.4s ease, opacity 0.4s ease, transform 0.4s ease;
+    transition: filter 0.4s var(--ease-in-out), opacity 0.4s var(--ease-in-out), transform 0.4s var(--ease-in-out);
   }
 
   .testimonials__slide.is-active .testimonials__card {
@@ -276,11 +276,17 @@ const testimonials = [
     color: #fff;
     font-size: 1.5rem;
     line-height: 1;
-    transition: background var(--transition-base);
+    transition: background var(--transition-base), transform 0.15s var(--ease-out);
   }
 
-  .testimonials__nav:hover {
-    background: rgb(255 255 255 / 0.18);
+  @media (hover: hover) and (pointer: fine) {
+    .testimonials__nav:hover {
+      background: rgb(255 255 255 / 0.18);
+    }
+  }
+
+  .testimonials__nav:active {
+    transform: scale(0.92);
   }
 
   @media (min-width: 700px) {

@@ -121,8 +121,10 @@ const links = [
     color: rgb(255 255 255 / 0.85);
   }
 
-  .header__nav a:hover {
-    color: #fff;
+  @media (hover: hover) and (pointer: fine) {
+    .header__nav a:hover {
+      color: #fff;
+    }
   }
 
   @media (min-width: 960px) {
@@ -143,6 +145,7 @@ const links = [
     align-items: center;
     justify-content: center;
     white-space: nowrap;
+    min-height: 44px;
     padding: 0.4375rem 0.875rem;
     border-radius: 999px;
     background: var(--color-lime);
@@ -153,12 +156,18 @@ const links = [
     text-transform: uppercase;
     letter-spacing: 0.02em;
     text-decoration: none;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    transition: transform 0.15s var(--ease-out), box-shadow 0.15s var(--ease-out);
   }
 
-  .header__cta:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 16px -4px rgb(0 0 0 / 0.3);
+  @media (hover: hover) and (pointer: fine) {
+    .header__cta:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px -4px rgb(0 0 0 / 0.3);
+    }
+  }
+
+  .header__cta:active {
+    transform: scale(0.97);
   }
 
   .header__mobile-nav a.header__mobile-cta {
@@ -235,7 +244,7 @@ const links = [
     max-height: 0;
     overflow: hidden;
     opacity: 0;
-    transition: max-height 0.3s ease, opacity 0.25s ease;
+    transition: max-height 0.25s var(--ease-out), opacity 0.2s var(--ease-out);
   }
 
   .header__mobile-nav.is-open {
@@ -252,17 +261,23 @@ const links = [
     letter-spacing: 0.02em;
     padding: 0.5rem 0.875rem;
     border-radius: 0.625rem;
-    transition: background var(--transition-base), color var(--transition-base);
+    transition: background var(--transition-base), color var(--transition-base), transform 0.15s var(--ease-out);
   }
 
-  .header__mobile-nav a:hover {
-    background: rgb(255 255 255 / 0.1);
-    color: #fff;
+  @media (hover: hover) and (pointer: fine) {
+    .header__mobile-nav a:hover {
+      background: rgb(255 255 255 / 0.1);
+      color: #fff;
+    }
+
+    .header__mobile-nav a.header__mobile-cta:hover {
+      background: var(--color-lime);
+      color: var(--color-accent-dark);
+    }
   }
 
-  .header__mobile-nav a.header__mobile-cta:hover {
-    background: var(--color-lime);
-    color: var(--color-accent-dark);
+  .header__mobile-nav a:active {
+    transform: scale(0.97);
   }
 
   @media (min-width: 960px) {

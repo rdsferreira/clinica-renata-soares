@@ -175,7 +175,7 @@ const whatsapp =
       0 8px 24px -6px rgb(80 42 119 / 0.4),
       inset 0 1.5px 0 rgb(255 255 255 / 0.35),
       inset 0 -1px 0 rgb(0 0 0 / 0.15);
-    transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease;
+    transition: transform 0.22s var(--ease-out), box-shadow 0.22s var(--ease-out), background 0.22s var(--ease-out);
   }
 
   .medpartners__cta::before {
@@ -201,21 +201,27 @@ const whatsapp =
       transparent 67%
     );
     transform: translateX(-120%) rotate(12deg);
-    transition: transform 0.55s ease;
+    transition: transform 0.55s var(--ease-in-out);
     pointer-events: none;
   }
 
-  .medpartners__cta:hover::after {
-    transform: translateX(120%) rotate(12deg);
+  @media (hover: hover) and (pointer: fine) {
+    .medpartners__cta:hover::after {
+      transform: translateX(120%) rotate(12deg);
+    }
+
+    .medpartners__cta:hover {
+      background: var(--color-accent-dark);
+      box-shadow:
+        0 12px 32px -6px rgb(80 42 119 / 0.5),
+        inset 0 1.5px 0 rgb(255 255 255 / 0.45),
+        inset 0 -1px 0 rgb(0 0 0 / 0.15);
+      transform: translateY(-2px);
+    }
   }
 
-  .medpartners__cta:hover {
-    background: var(--color-accent-dark);
-    box-shadow:
-      0 12px 32px -6px rgb(80 42 119 / 0.5),
-      inset 0 1.5px 0 rgb(255 255 255 / 0.45),
-      inset 0 -1px 0 rgb(0 0 0 / 0.15);
-    transform: translateY(-2px);
+  .medpartners__cta:active {
+    transform: scale(0.97);
   }
 
   @media (min-width: 860px) {

@@ -71,7 +71,7 @@ const whatsapp =
       inset 0 1.5px 0 rgb(255 255 255 / 0.7),
       inset 0 -1px 0 rgb(0 0 0 / 0.15),
       inset 1.5px 0 0 rgb(255 255 255 / 0.22);
-    transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease;
+    transition: transform 0.22s var(--ease-out), box-shadow 0.22s var(--ease-out), background 0.22s var(--ease-out);
   }
 
   .cta-band__btn::before {
@@ -97,22 +97,28 @@ const whatsapp =
       transparent 67%
     );
     transform: translateX(-120%) rotate(12deg);
-    transition: transform 0.55s ease;
+    transition: transform 0.55s var(--ease-in-out);
     pointer-events: none;
   }
 
-  .cta-band__btn:hover::after {
-    transform: translateX(120%) rotate(12deg);
+  @media (hover: hover) and (pointer: fine) {
+    .cta-band__btn:hover::after {
+      transform: translateX(120%) rotate(12deg);
+    }
+
+    .cta-band__btn:hover {
+      background: rgb(255 255 255 / 0.24);
+      box-shadow:
+        0 12px 40px -4px rgb(0 0 0 / 0.38),
+        inset 0 1.5px 0 rgb(255 255 255 / 0.85),
+        inset 0 -1px 0 rgb(0 0 0 / 0.1),
+        inset 1.5px 0 0 rgb(255 255 255 / 0.32);
+      transform: translateY(-2px);
+    }
   }
 
-  .cta-band__btn:hover {
-    background: rgb(255 255 255 / 0.24);
-    box-shadow:
-      0 12px 40px -4px rgb(0 0 0 / 0.38),
-      inset 0 1.5px 0 rgb(255 255 255 / 0.85),
-      inset 0 -1px 0 rgb(0 0 0 / 0.1),
-      inset 1.5px 0 0 rgb(255 255 255 / 0.32);
-    transform: translateY(-2px);
+  .cta-band__btn:active {
+    transform: scale(0.97);
   }
 
   @media (max-width: 640px) {

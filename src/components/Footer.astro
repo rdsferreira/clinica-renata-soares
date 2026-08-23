@@ -220,7 +220,9 @@ const mapsEmbed =
     transition: color var(--transition-base);
   }
 
-  .footer__contacts a:hover { color: #fff; }
+  @media (hover: hover) and (pointer: fine) {
+    .footer__contacts a:hover { color: #fff; }
+  }
 
   /* Mapa */
   .footer__map-wrap {
@@ -256,7 +258,9 @@ const mapsEmbed =
     transition: color var(--transition-base);
   }
 
-  .footer__map-btn:hover { color: #fff; }
+  @media (hover: hover) and (pointer: fine) {
+    .footer__map-btn:hover { color: #fff; }
+  }
 
   /* Redes sociais */
   .footer__social {
@@ -273,7 +277,9 @@ const mapsEmbed =
     transition: color var(--transition-base);
   }
 
-  .footer__social-link:hover { color: var(--color-lime); }
+  @media (hover: hover) and (pointer: fine) {
+    .footer__social-link:hover { color: var(--color-lime); }
+  }
 
   .footer__social-link svg {
     flex-shrink: 0;
@@ -322,8 +328,10 @@ const mapsEmbed =
     transition: color var(--transition-base);
   }
 
-  .footer__policy-link:hover {
-    color: var(--color-lime);
+  @media (hover: hover) and (pointer: fine) {
+    .footer__policy-link:hover {
+      color: var(--color-lime);
+    }
   }
 
   .footer__disclaimer {

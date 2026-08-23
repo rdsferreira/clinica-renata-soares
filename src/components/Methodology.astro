@@ -123,11 +123,6 @@ const areas = [
     transition: transform var(--transition-base), box-shadow var(--transition-base);
   }
 
-  .areas__card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 16px 40px -8px rgb(0 0 0 / 0.35);
-  }
-
   /* Foto preenche o card por inteiro */
   .areas__img {
     position: absolute;
@@ -136,11 +131,18 @@ const areas = [
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform 0.5s ease;
+    transition: transform 0.5s var(--ease-out);
   }
 
-  .areas__card:hover .areas__img {
-    transform: scale(1.05);
+  @media (hover: hover) and (pointer: fine) {
+    .areas__card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 16px 40px -8px rgb(0 0 0 / 0.35);
+    }
+
+    .areas__card:hover .areas__img {
+      transform: scale(1.05);
+    }
   }
 
   /* Faixa de cor no topo */

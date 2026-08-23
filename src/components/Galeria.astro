@@ -145,7 +145,7 @@ const photos = [
     cursor: pointer;
     background: var(--color-accent-dark);
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.3s var(--ease-out);
   }
 
   .galeria__item.is-placed {
@@ -157,12 +157,17 @@ const photos = [
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform 0.6s ease;
+    transition: transform 0.6s var(--ease-in-out);
   }
 
-  .galeria__item:hover img,
   .galeria__item:focus-visible img {
     transform: scale(1.04);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .galeria__item:hover img {
+      transform: scale(1.04);
+    }
   }
 
   @media (max-width: 900px) {
@@ -191,6 +196,7 @@ const photos = [
 
   .galeria__lightbox.is-open {
     display: flex;
+    animation: lightbox-enter 220ms var(--ease-out) both;
   }
 
   .galeria__lightbox img {
@@ -198,6 +204,20 @@ const photos = [
     max-height: 100%;
     border-radius: 0.75rem;
     object-fit: contain;
+  }
+
+  .galeria__lightbox.is-open img {
+    animation: lightbox-img-enter 250ms var(--ease-out) both;
+  }
+
+  @keyframes lightbox-enter {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes lightbox-img-enter {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
   }
 
   .galeria__lightbox-close {
@@ -212,11 +232,17 @@ const photos = [
     color: #fff;
     font-size: 1.125rem;
     cursor: pointer;
-    transition: background var(--transition-base);
+    transition: background var(--transition-base), transform 0.15s var(--ease-out);
   }
 
-  .galeria__lightbox-close:hover {
-    background: rgb(255 255 255 / 0.22);
+  @media (hover: hover) and (pointer: fine) {
+    .galeria__lightbox-close:hover {
+      background: rgb(255 255 255 / 0.22);
+    }
+  }
+
+  .galeria__lightbox-close:active {
+    transform: scale(0.92);
   }
 
   .galeria__lightbox-nav {
@@ -232,11 +258,17 @@ const photos = [
     font-size: 1.5rem;
     line-height: 1;
     cursor: pointer;
-    transition: background var(--transition-base);
+    transition: background var(--transition-base), transform 0.15s var(--ease-out);
   }
 
-  .galeria__lightbox-nav:hover {
-    background: rgb(255 255 255 / 0.22);
+  @media (hover: hover) and (pointer: fine) {
+    .galeria__lightbox-nav:hover {
+      background: rgb(255 255 255 / 0.22);
+    }
+  }
+
+  .galeria__lightbox-nav:active {
+    transform: translateY(-50%) scale(0.92);
   }
 
   .galeria__lightbox-nav--prev { left: clamp(0.75rem, 2vw, 1.5rem); }

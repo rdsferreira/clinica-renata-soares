@@ -171,9 +171,11 @@ const jornadaPhotos = [
     transition: transform var(--transition-base), box-shadow var(--transition-base);
   }
 
-  .how__step:hover .how__num {
-    transform: scale(1.08);
-    box-shadow: 0 4px 16px -4px rgb(80 42 119 / 0.35);
+  @media (hover: hover) and (pointer: fine) {
+    .how__step:hover .how__num {
+      transform: scale(1.08);
+      box-shadow: 0 4px 16px -4px rgb(80 42 119 / 0.35);
+    }
   }
 
   .how__num--orange {
@@ -268,7 +270,7 @@ const jornadaPhotos = [
     height: 100%;
     object-fit: cover;
     opacity: 0;
-    transition: opacity 700ms ease-in-out;
+    transition: opacity 700ms var(--ease-in-out);
   }
 
   .jornada__slide[data-active="true"] {
@@ -291,7 +293,7 @@ const jornadaPhotos = [
     height: 8px;
     border-radius: 50%;
     background: rgb(255 255 255 / 0.5);
-    transition: background 300ms ease;
+    transition: background 300ms var(--ease-out);
   }
 
   .jornada__dot[data-active="true"] {
