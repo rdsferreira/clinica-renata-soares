@@ -1,7 +1,7 @@
 ---
 // Seção 05 — Quem é Renata Soares
 import { Image } from "astro:assets";
-import portraitImage from "../../public/images/renata-vertical-02.jpeg";
+import portraitImage from "../../public/images/renata-sobre.webp";
 
 const qualifications = [
   "Mestre em Ciências da Saúde pela UNIFESP",
@@ -24,7 +24,7 @@ const qualifications = [
           src={portraitImage}
           alt="Renata Soares no ambiente da clínica"
           width={900}
-          height={1200}
+          height={1600}
           class="about__portrait"
         />
 
@@ -68,6 +68,7 @@ const qualifications = [
     height: auto;
     aspect-ratio: 3 / 4;
     object-fit: cover;
+    object-position: top center;
     border-radius: 1.25rem;
     display: block;
   }

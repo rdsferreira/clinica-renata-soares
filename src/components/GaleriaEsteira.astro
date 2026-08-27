@@ -1,0 +1,341 @@
+---
+/**
+ * GaleriaEsteira.astro
+ *
+ * Uso na página:
+ *   import GaleriaEsteira from '../components/GaleriaEsteira.astro';
+ *   <GaleriaEsteira
+ *     eyebrow="Por dentro do espaço"
+ *     titulo="O ambiente onde o atendimento acontece"
+ *     fotos={[{ src: '/img/sala-1.webp', alt: 'Sala de avaliação' }, ...]}
+ *   />
+ */
+
+const {
+  id = 'galeria',
+  eyebrow = 'Por dentro do espaço',
+  titulo = 'O ambiente onde o atendimento acontece',
+  subtitulo = 'Passe o mouse para pausar e clique em qualquer foto para ampliar.',
+  fotos = [],
+} = Astro.props;
+
+// A esteira precisa da lista duplicada para o loop não dar salto.
+const fileiraA = [...fotos, ...fotos];
+const fileiraB = [...[...fotos].reverse(), ...[...fotos].reverse()];
+---
+
+<section class="gal-gallery" id={id} aria-labelledby={`${id}-titulo`}>
+  <div class="gal-gallery__head">
+    <p class="gal-gallery__eyebrow">{eyebrow}</p>
+    <h2 class="gal-gallery__title" id={`${id}-titulo`}>{titulo}</h2>
+    <p class="gal-gallery__sub">{subtitulo}</p>
+  </div>
+
+  <div class="gal-marquee">
+    <div class="gal-row gal-row--a">
+      {fileiraA.map((f, i) => (
+        <button
+          class="gal-card"
+          type="button"
+          data-foto={fotos.findIndex((x) => x.src === f.src)}
+          aria-hidden={i >= fotos.length ? 'true' : undefined}
+          tabindex={i >= fotos.length ? -1 : 0}
+          aria-label={`Ampliar: ${f.alt}`}
+        >
+          <img src={f.src} alt={f.alt} loading="lazy" decoding="async" />
+          <figcaption>{f.alt}</figcaption>
+        </button>
+      ))}
+    </div>
+
+    <div class="gal-row gal-row--b">
+      {fileiraB.map((f, i) => (
+        <button
+          class="gal-card"
+          type="button"
+          data-foto={fotos.findIndex((x) => x.src === f.src)}
+          aria-hidden={i >= fotos.length ? 'true' : undefined}
+          tabindex={i >= fotos.length ? -1 : 0}
+          aria-label={`Ampliar: ${f.alt}`}
+        >
+          <img src={f.src} alt={f.alt} loading="lazy" decoding="async" />
+          <figcaption>{f.alt}</figcaption>
+        </button>
+      ))}
+    </div>
+  </div>
+
+  <div class="gal-lb" data-lightbox role="dialog" aria-modal="true" aria-label="Foto ampliada">
+    <button class="gal-lb__btn gal-lb__close" data-close aria-label="Fechar">&times;</button>
+    <button class="gal-lb__btn gal-lb__prev" data-prev aria-label="Foto anterior">&#8249;</button>
+    <img data-lb-img alt="" />
+    <button class="gal-lb__btn gal-lb__next" data-next aria-label="Próxima foto">&#8250;</button>
+    <p class="gal-lb__cap" data-lb-cap></p>
+  </div>
+</section>
+
+<script is:inline define:vars={{ FOTOS: fotos, SECAO: id }}>
+  (() => {
+    const secao = document.getElementById(SECAO);
+    if (!secao) return;
+
+    const lb = secao.querySelector('[data-lightbox]');
+    const lbImg = lb.querySelector('[data-lb-img]');
+    const lbCap = lb.querySelector('[data-lb-cap]');
+    let atual = 0;
+    let ultimoFoco = null;
+
+    const render = () => {
+      lbImg.src = FOTOS[atual].src;
+      lbImg.alt = FOTOS[atual].alt;
+      lbCap.textContent = FOTOS[atual].alt;
+    };
+    const abrir = (i) => {
+      atual = i;
+      ultimoFoco = document.activeElement;
+      render();
+      lb.classList.add('is-open');
+      lb.querySelector('[data-close]').focus();
+    };
+    const mover = (d) => {
+      atual = (atual + d + FOTOS.length) % FOTOS.length;
+      render();
+    };
+    const fechar = () => {
+      lb.classList.remove('is-open');
+      ultimoFoco && ultimoFoco.focus();
+    };
+
+    secao.querySelectorAll('.gal-card').forEach((c) => {
+      c.addEventListener('click', () => abrir(Number(c.dataset.foto)));
+    });
+
+    lb.querySelector('[data-close]').addEventListener('click', fechar);
+    lb.querySelector('[data-prev]').addEventListener('click', () => mover(-1));
+    lb.querySelector('[data-next]').addEventListener('click', () => mover(1));
+    lb.addEventListener('click', (e) => {
+      if (e.target === lb) fechar();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (!lb.classList.contains('is-open')) return;
+      if (e.key === 'Escape') fechar();
+      if (e.key === 'ArrowRight') mover(1);
+      if (e.key === 'ArrowLeft') mover(-1);
+    });
+  })();
+</script>
+
+<style>
+  /* Cores herdadas dos tokens de marca do projeto (src/styles/global.css) */
+  .gal-gallery {
+    --bg: var(--color-bg);
+    --ink: var(--color-text);
+    --muted: var(--color-text-muted);
+    --accent: var(--color-accent);
+    --radius: 14px;
+    --speed-a: 55s;
+    --speed-b: 70s;
+
+    padding: 72px 0;
+    overflow: hidden;
+    background: var(--bg);
+    color: var(--ink);
+  }
+
+  .gal-gallery__head {
+    max-width: 1100px;
+    margin: 0 auto 36px;
+    padding: 0 24px;
+  }
+  .gal-gallery__eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    margin: 0 0 10px;
+  }
+  .gal-gallery__title {
+    font-size: clamp(1.6rem, 3.4vw, 2.4rem);
+    line-height: 1.15;
+    margin: 0 0 8px;
+    font-weight: 700;
+  }
+  .gal-gallery__sub {
+    margin: 0;
+    color: var(--muted);
+    max-width: 52ch;
+    line-height: 1.6;
+  }
+
+  .gal-marquee {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .gal-marquee::before,
+  .gal-marquee::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 12%;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .gal-marquee::before {
+    left: 0;
+    background: linear-gradient(90deg, var(--bg), transparent);
+  }
+  .gal-marquee::after {
+    right: 0;
+    background: linear-gradient(270deg, var(--bg), transparent);
+  }
+
+  .gal-row {
+    display: flex;
+    width: max-content;
+    gap: 18px;
+    will-change: transform;
+  }
+  .gal-row--a {
+    animation: gal-slide-left var(--speed-a) linear infinite;
+  }
+  .gal-row--b {
+    animation: gal-slide-right var(--speed-b) linear infinite;
+  }
+  .gal-marquee:hover .gal-row {
+    animation-play-state: paused;
+  }
+
+  @keyframes gal-slide-left {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @keyframes gal-slide-right {
+    from { transform: translateX(-50%); }
+    to { transform: translateX(0); }
+  }
+
+  .gal-card {
+    flex: 0 0 auto;
+    width: clamp(210px, 26vw, 320px);
+    aspect-ratio: 4 / 3;
+    border-radius: var(--radius);
+    overflow: hidden;
+    position: relative;
+    border: 0;
+    padding: 0;
+    background: #eee;
+    cursor: pointer;
+    transition: transform 0.45s cubic-bezier(0.2, 0.7, 0.3, 1), box-shadow 0.45s;
+  }
+  .gal-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.3, 1), filter 0.45s;
+  }
+  .gal-row:hover .gal-card img {
+    filter: saturate(0.55) brightness(0.9);
+  }
+  .gal-card:hover img,
+  .gal-card:focus-visible img {
+    transform: scale(1.06);
+    filter: none;
+  }
+  .gal-card:hover,
+  .gal-card:focus-visible {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 40px rgba(27, 20, 32, 0.18);
+  }
+  .gal-card:focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 3px;
+  }
+  .gal-card figcaption {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 26px 14px 12px;
+    color: #fff;
+    font-size: 0.85rem;
+    text-align: left;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.62));
+    opacity: 0;
+    transform: translateY(8px);
+    transition: 0.35s;
+  }
+  .gal-card:hover figcaption,
+  .gal-card:focus-visible figcaption {
+    opacity: 1;
+    transform: none;
+  }
+
+  .gal-lb {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 10, 18, 0.92);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+    padding: 24px;
+  }
+  .gal-lb.is-open {
+    display: flex;
+  }
+  .gal-lb img {
+    max-width: min(1100px, 92vw);
+    max-height: 84vh;
+    border-radius: var(--radius);
+  }
+  .gal-lb__btn {
+    position: absolute;
+    background: none;
+    border: 0;
+    color: #fff;
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 12px;
+    line-height: 1;
+  }
+  .gal-lb__btn:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+  }
+  .gal-lb__prev { left: 8px; top: 50%; transform: translateY(-50%); }
+  .gal-lb__next { right: 8px; top: 50%; transform: translateY(-50%); }
+  .gal-lb__close { top: 8px; right: 12px; }
+  .gal-lb__cap {
+    position: absolute;
+    bottom: 18px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: #fff;
+    font-size: 0.9rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gal-row {
+      animation: none;
+      width: auto;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding-bottom: 8px;
+    }
+    .gal-card { scroll-snap-align: center; }
+    .gal-card, .gal-card img, .gal-card figcaption { transition: none; }
+    .gal-marquee::before, .gal-marquee::after { display: none; }
+  }
+
+  @media (max-width: 640px) {
+    .gal-row--b { display: none; }
+    .gal-gallery { --speed-a: 38s; }
+  }
+</style>
