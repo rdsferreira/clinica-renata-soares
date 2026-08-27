@@ -39,9 +39,11 @@ const whatsapp =
         <p class="hero__subtitle-close">Tudo com abordagem humana, acolhimento e totalmente baseado em evidências.</p>
       </div>
 
-      <p class="hero__credential">
-        Mestre em Ciências da Saúde pela UNIFESP
-      </p>
+      <ul class="hero__credential">
+        <li>Mestre em Ciências da Saúde / UNIFESP</li>
+        <li>Especialização em Aparelho Locomotor do Esporte e Ortopedia / UNIFESP</li>
+        <li>Especialização em Dor para Fisioterapeutas / FeO</li>
+      </ul>
     </div>
 
     <div class="hero__cta-wrap fade-up fade-up-delay-3">
@@ -185,11 +187,16 @@ const whatsapp =
 
   .hero__credential {
     margin-top: 1.5rem;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.25rem;
     font-size: 0.8125rem;
     font-family: var(--font-body-family);
     text-transform: none;
     color: rgb(255 255 255 / 0.6);
     letter-spacing: 0.01em;
+    line-height: 1.4;
   }
 
   .hero__media {
