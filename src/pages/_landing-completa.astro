@@ -1,0 +1,79 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Hero from "../components/Hero.astro";
+import PediatricCare from "../components/PediatricCare.astro";
+import Methodology from "../components/Methodology.astro";
+import HowItWorks from "../components/HowItWorks.astro";
+import About from "../components/About.astro";
+import Diferenciais from "../components/Diferenciais.astro";
+import Ambiente from "../components/Ambiente.astro";
+import GaleriaEsteira from "../components/GaleriaEsteira.astro";
+import Testimonials from "../components/Testimonials.astro";
+import MedicalPartners from "../components/MedicalPartners.astro";
+import FAQ from "../components/FAQ.astro";
+import Contact from "../components/Contact.astro";
+import Footer from "../components/Footer.astro";
+import WhatsAppFloat from "../components/WhatsAppFloat.astro";
+import CookieConsent from "../components/CookieConsent.astro";
+import CtaBand from "../components/CtaBand.astro";
+
+const fotosGaleria = [
+  { src: "/images/galeria/foto-01.webp", alt: "Manequim articulado de madeira usado em avaliação anatômica, com a sala de fisioterapia ao fundo" },
+  { src: "/images/galeria/foto-02.webp", alt: "Renata orientando o alongamento de uma adolescente sobre a maca" },
+  { src: "/images/galeria/foto-03.webp", alt: "Criança praticando exercício de extensão de perna no reformer de pilates, com vista da cidade ao fundo" },
+  { src: "/images/galeria/foto-04.webp", alt: "Renata sorrindo ao lado de colegas em foto no consultório" },
+  { src: "/images/galeria/foto-05.webp", alt: "Mão de criança tocando um brinquedo sensorial amarelo com furos, usado em estímulo motor" },
+  { src: "/images/galeria/foto-06.webp", alt: "Renata orientando o passo de uma criança sobre um step de madeira, com tornozeleira de peso" },
+  { src: "/images/galeria/foto-07.webp", alt: "Renata sorrindo ao lado de um paciente adolescente, que faz sinal de positivo" },
+  { src: "/images/galeria/foto-08.webp", alt: "Grupo de crianças sentado no chão brincando com bonecos Sr. Cabeça de Batata durante intervalo da sessão" },
+  { src: "/images/galeria/foto-09.webp", alt: "Avaliação postural de paciente adolescente, vista frontal" },
+  { src: "/images/galeria/foto-10.webp", alt: "Avaliação postural de paciente adolescente, vista posterior" },
+  { src: "/images/galeria/foto-11.webp", alt: "Criança treinando equilíbrio em pé sobre um círculo colorido, entre bases sensoriais no chão" },
+  { src: "/images/galeria/foto-12.webp", alt: "Sala de fisioterapia equipada com bolas suíças, reformer de pilates e materiais de treino funcional" },
+  { src: "/images/galeria/foto-13.webp", alt: "Criança fantasiada de super-herói praticando alongamento de perna na barra de espaldar" },
+  { src: "/images/galeria/foto-14.webp", alt: "Criança sorridente sentada no chão brincando com bonecos Sr. Cabeça de Batata" },
+  { src: "/images/galeria/foto-15.webp", alt: "Renata palestrando no 17º Congresso Brasileiro de Dor (CBDOR)" },
+  { src: "/images/galeria/foto-16.webp", alt: "Renata e a Terapeuta Ocupacional Andrea, num atendimento multidisciplinar" },
+  { src: "/images/galeria/foto-17.webp", alt: "Uma adolescente bailarina em exercício de solo" },
+  { src: "/images/galeria/foto-18.webp", alt: "Montagem com fotos comparando a postura de tronco de um paciente durante avaliação" },
+  { src: "/images/galeria/foto-19.webp", alt: "Renata e uma criança elevando os braços, de mãos dadas" },
+  { src: "/images/galeria/foto-20.webp", alt: "Adolescente em apresentação de patinação artística, ex-paciente da clínica" },
+  { src: "/images/galeria/foto-21.webp", alt: "Criança sorridente com tornozeleiras de peso, segurando halteres durante sessão de fortalecimento" },
+  { src: "/images/galeria/foto-22.webp", alt: "Renata e a mãe do Joaquim" },
+];
+---
+
+<Layout
+  title="Clínica Renata Soares — Fisioterapia Pediátrica em Alphaville"
+  description="Fisioterapia especializada para crianças e adolescentes em Alphaville, Barueri/SP. Avaliação e tratamento de dores, alterações posturais, lesões esportivas e condições musculoesqueléticas com base em evidências. Agende uma avaliação."
+  ogImage="/og-image.jpg"
+>
+  <Header />
+  <main>
+    <Hero />
+    <PediatricCare />
+    <Methodology />
+    <CtaBand text="Notou algum sinal de dor ou alteração postural no seu filho? Marque uma avaliação." />
+    <HowItWorks />
+    <About />
+    <Diferenciais />
+    <CtaBand text="Cuidado individualizado, do diagnóstico ao retorno ao esporte e às atividades do dia a dia." />
+    <Ambiente />
+    <GaleriaEsteira
+      fotos={fotosGaleria}
+      id="galeria"
+      eyebrow="Galeria"
+      titulo="Na clínica e no tratamento"
+      subtitulo="Registros do espaço, dos equipamentos e dos atendimentos na Clínica Renata Soares — o ambiente pensado para o dia a dia do tratamento."
+    />
+    <CtaBand text="Conheça o ambiente pensado para crianças e adolescentes agendando uma visita." />
+    <Testimonials />
+    <MedicalPartners />
+    <FAQ />
+    <Contact />
+  </main>
+  <Footer />
+  <WhatsAppFloat />
+  <CookieConsent />
+</Layout>
