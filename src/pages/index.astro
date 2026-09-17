@@ -3,6 +3,8 @@ import Layout from "../layouts/Layout.astro";
 
 const whatsapp =
   "https://wa.me/5511988171918?text=Ol%C3%A1%2C%20gostaria%20de%20agendar%20uma%20avalia%C3%A7%C3%A3o";
+const mapsUrl =
+  "https://www.google.com/maps/search/?api=1&query=Alameda+Graja%C3%BA%2C+60%2C+Alphaville%2C+Barueri%2C+SP";
 ---
 
 <Layout
@@ -41,7 +43,9 @@ const whatsapp =
       <div class="soon__divider" aria-hidden="true"></div>
 
       <address class="soon__address">
-        Alameda Grajaú, 60 — Sala 1010, Alphaville, Barueri — SP
+        <a class="soon__address-link" href={mapsUrl} target="_blank" rel="noopener">
+          Alameda Grajaú, 60 — Sala 1010, Alphaville, Barueri — SP
+        </a>
       </address>
     </div>
   </main>
@@ -74,7 +78,7 @@ const whatsapp =
   }
 
   .soon__logo {
-    width: 9rem;
+    width: clamp(11rem, 9rem + 8vw, 16rem);
     height: auto;
     margin-bottom: 1.5rem;
   }
@@ -169,7 +173,17 @@ const whatsapp =
     margin-top: 1.25rem;
     font-style: normal;
     font-size: 0.8125rem;
-    color: rgb(255 255 255 / 0.55);
     line-height: 1.6;
+  }
+
+  .soon__address-link {
+    color: rgb(255 255 255 / 0.55);
+    text-decoration: none;
+    transition: color var(--transition-base);
+  }
+
+  .soon__address-link:hover {
+    color: rgb(255 255 255 / 0.85);
+    text-decoration: underline;
   }
 </style>
